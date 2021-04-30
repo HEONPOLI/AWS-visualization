@@ -1,19 +1,23 @@
+svg {
+  display: block;
+  margin: auto;
+}
+
+select {
+  margin-bottom: 10px;
+}
+
 .node,
 .node--leaf {
   cursor: pointer;
   fill: white;
-  stroke: #bdc3c7;
-  stroke-width: 1.5px;
+  /* stroke: #c4db15;
+  stroke-width: 1px; */
 }
 
 .node:hover {
-  stroke: #000;
+  stroke: #c4db15;
   stroke-width: 1.5px;
-}
-
-svg {
-  display: block;
-  margin: auto;
 }
 
 .label,
