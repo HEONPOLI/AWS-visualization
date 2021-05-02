@@ -5,10 +5,14 @@ const OPACITY = 0.14;
 
 const svg = d3.select("body").select("svg");
 const diameter = +svg.attr("width");
+
 const nodeGroup = svg
   .append("g")
   .attr("class", "nodeGroup")
   .attr("transform", `translate(${diameter / 2}, ${diameter / 2})`);
+
+let labelGroup = null;
+let zoomAble = true; // unable to zoom while searching
 
 const color = d3
   .scaleLinear()
@@ -21,7 +25,9 @@ const pack = d3
   .size([diameter - MARGIN, diameter - MARGIN])
   .padding(8);
 
-const dd = d3.select("body").select("select");
+const dropDown = document.querySelector("select");
+const retButton = document.querySelector(".button--return");
+const viewButton = document.querySelector(".button--view");
 
 //<<<================== init DEFINITION ==================>>>
 
@@ -31,8 +37,8 @@ const init = function (root) {
     .sum((d) => d.size)
     .sort((a, b) => b.value - a.value);
 
-  let focus = root;
   const nodes = pack(root).descendants();
+  let focus = root;
   let view;
 
   const circle = nodeGroup
@@ -49,16 +55,15 @@ const init = function (root) {
     })
     .style("display", (d) => (d.height === 0 ? "none" : "inline"))
     .style("fill", (d) => color(d.depth))
-    .style("opacity", (d) => (d.depth > 1 ? OPACITY : 1))
+    // .style("opacity", (d) => (d.depth > 1 ? OPACITY : 1))
     .on("click", function (event, d) {
-      if (d.height === 1) {
-        // zoom(root);
-      } else if (d.parent === focus) {
+      if (d.height === 0 || zoomAble === false) {
+        //pass
+      } else if (focus === d) {
+        zoom(d.parent);
+      } else {
         zoom(d);
         event.stopPropagation();
-      } else if (focus === d) {
-        // zoom(root);
-        zoom(d.parent);
       }
     });
 
@@ -73,33 +78,55 @@ const init = function (root) {
     .attr("width", (d) => d.r / 2)
     .attr("height", (d) => d.r / 2)
     .attr("href", (d) => d.data.href)
-    .style("opacity", (d) => (d.depth > 1 ? 0 : 1))
+    // .style("opacity", (d) => (d.depth > 1 ? 0 : 1))
+    .style("opacity", (d) => (d.height === 1 ? 1 : 0))
     .style("display", (d) => (d === root ? "none" : "inline"));
 
   const node = nodeGroup.selectAll("circle, image");
 
+  //<<<================== event listeners ==================>>>
+
   zoomTo([root.x, root.y, root.r * 2 + MARGIN]);
 
-  dd.on("change", function (event) {
+  dropDown.addEventListener("change", function (event) {
     const val = event.target.value;
 
-    nodeGroup
-      .selectAll("circle")
-      .style("opacity", (d) =>
-        d.data.name.startsWith(val) ? 1 : d !== root ? OPACITY : null
-      );
+    if (val !== "init") {
+      zoomAble = false;
+      retButton.disabled = true;
+
+      nodeGroup
+        .selectAll("circle")
+        .style("opacity", (d) =>
+          d.data.name.startsWith(val) ? 1 : d !== root ? OPACITY : null
+        );
+
+      nodeGroup
+        .selectAll("image")
+        .style("opacity", (d) =>
+          d.data.name.startsWith(val) ? 1 : d !== root ? 0 : null
+        );
+    }
+  });
+
+  retButton.addEventListener("click", (event) => zoom(root));
+
+  viewButton.addEventListener("click", function (event) {
+    zoomAble = true;
+    retButton.disabled = false;
+
+    nodeGroup.selectAll("circle").style("opacity", (d) => 1);
 
     nodeGroup
       .selectAll("image")
-      .style("opacity", (d) =>
-        d.data.name.startsWith(val) ? 1 : d !== root ? 0 : null
-      );
+      .style("opacity", (d) => (d.height === 1 ? 1 : 0));
+
+    dropDown.selectedIndex = 0;
   });
 
   //<<<================== zoom DEFINITION ==================>>>
 
   function zoom(d) {
-    const focus0 = focus;
     focus = d;
 
     const transition = d3
@@ -114,21 +141,21 @@ const init = function (root) {
         return (t) => zoomTo(i(t));
       });
 
-    transition
-      .selectAll("image")
-      .filter((d) => focus.descendants().includes(d))
-      .style("opacity", (d) => (d.parent === focus ? 1 : 0));
+    // transition
+    //   .selectAll("image")
+    //   .filter((d) => focus.descendants().includes(d))
+    //   .style("opacity", (d) => (d.parent === focus ? 1 : 0));
 
-    transition
-      .selectAll("circle")
-      .filter((d) => focus.descendants().includes(d))
-      .style("opacity", function (d) {
-        if (focus.depth + 1 < d.depth) {
-          return OPACITY;
-        } else if (focus.depth + 1 === d.depth) {
-          return 1;
-        }
-      });
+    // transition
+    //   .selectAll("circle")
+    //   .filter((d) => focus.descendants().includes(d))
+    //   .style("opacity", function (d) {
+    //     if (focus.depth + 1 < d.depth) {
+    //       return OPACITY;
+    //     } else if (focus.depth + 1 === d.depth) {
+    //       return 1;
+    //     }
+    //   });
   }
 
   //<<<================== zoomTo DEFINITION ==================>>>
@@ -156,7 +183,7 @@ const init = function (root) {
   function appendLabel(v, k) {
     d3.selectAll(".labelGroup").remove();
 
-    const labelGroup = svg
+    labelGroup = svg
       .append("g")
       .attr("class", "labelGroup")
       .attr("transform", `translate(${diameter / 2}, ${diameter / 2})`);
@@ -186,12 +213,12 @@ const init = function (root) {
       .style("font-size", (d) => Math.round((d.r / 7) * k) + "px")
       .style("text-anchor", "start")
       .style("display", function (d) {
-        // d.height === 0 || d === root ? "none" : "inline";
-        if (d.height === 0 || d === root || focus.depth + 1 < d.depth) {
-          return "none";
-        } else if (focus.depth + 1 === d.depth) {
-          return "inline";
-        }
+        return d.height === 0 || d === root ? "none" : "inline";
+        // if (d.height === 0 || d === root || focus.depth + 1 < d.depth) {
+        //   return "none";
+        // } else if (focus.depth + 1 === d.depth) {
+        //   return "inline";
+        // }
       })
       .attr("startOffset", "50%")
       .style("fill-opacity", 0)
@@ -201,6 +228,26 @@ const init = function (root) {
       .transition()
       .duration(SPAN / 3)
       .style("fill-opacity", 1);
+
+    dropDown.addEventListener("change", function (event) {
+      const val = event.target.value;
+
+      if (val !== "init") {
+        labelGroup
+          .selectAll("text")
+          .style("display", (d) =>
+            d.data.name.startsWith(val) ? "inline" : "none"
+          );
+      }
+    });
+
+    viewButton.addEventListener("click", function (event) {
+      labelGroup
+        .selectAll("text")
+        .style("display", (d) =>
+          d.height === 0 || d === root ? "none" : "inline"
+        );
+    });
   }
 };
 
