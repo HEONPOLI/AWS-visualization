@@ -163,6 +163,6 @@ for vpc in vpcs:
 vpc_idx = 0
 
 
-with open("json/packed_circle.json", "w") as json_file:
+with open("C:/Users/ssp04/Desktop/Circle_Packing/packed_circle/json/packed_circle.json", "w") as json_file:
     json.dump(root_node, json_file, default=myconverter, indent=4)
     json_file.close()
