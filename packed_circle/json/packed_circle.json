@@ -1,297 +1,324 @@
 {
-   "name": "root",
-   "href": "icons/aws_root.png",
-   "children": [
-       {
-           "name": "null",
-           "children": [],
-           "size": 5.0
-       },
-       {
-           "id": "vpc-d38e0fb8",
-           "state": "available",
-           "cidr_block": "172.31.0.0/16",
-           "name": "vpc_0",
-           "size": 50,
-           "href": "icons/aws_igw.png",
-           "children": [
-               {
-                   "name": "null",
-                   "children": [],
-                   "size": 4.0
-               },
-               {
-                   "id": "subnet-b37ac9d8",
-                   "az": "ap-northeast-2a",
-                   "cidr_block": "172.31.0.0/20",
-                   "state": "available",
-                   "Natgws": [],
-                   "RouteTable": [],
-                   "name": "subnet_00",
-                   "size": 40,
-                   "href": "icons/aws_route_table.png",
-                   "children": [
-                       {
-                           "name": "null",
-                           "children": [],
-                           "size": 3.0
-                       }
-                   ]
-               },
-               {
-                   "id": "subnet-1fe81840",
-                   "az": "ap-northeast-2d",
-                   "cidr_block": "172.31.48.0/20",
-                   "state": "available",
-                   "Natgws": [],
-                   "RouteTable": [],
-                   "name": "subnet_01",
-                   "size": 40,
-                   "href": "icons/aws_route_table.png",
-                   "children": [
-                       {
-                           "name": "null",
-                           "children": [],
-                           "size": 3.0
-                       }
-                   ]
-               },
-               {
-                   "id": "subnet-90a8c4eb",
-                   "az": "ap-northeast-2b",
-                   "cidr_block": "172.31.16.0/20",
-                   "state": "available",
-                   "Natgws": [],
-                   "RouteTable": [],
-                   "name": "subnet_02",
-                   "size": 40,
-                   "href": "icons/aws_route_table.png",
-                   "children": [
-                       {
-                           "name": "null",
-                           "children": [],
-                           "size": 3.0
-                       }
-                   ]
-               },
-               {
-                   "id": "subnet-8b29cec4",
-                   "az": "ap-northeast-2c",
-                   "cidr_block": "172.31.32.0/20",
-                   "state": "available",
-                   "Natgws": [],
-                   "RouteTable": [],
-                   "name": "subnet_03",
-                   "size": 40,
-                   "href": "icons/aws_route_table.png",
-                   "children": [
-                       {
-                           "name": "null",
-                           "children": [],
-                           "size": 3.0
-                       }
-                   ]
-               }
-           ],
-           "Igws": []
-       },
-       {
-           "id": "vpc-08bafc22adcde27c6",
-           "state": "available",
-           "cidr_block": "172.16.0.0/16",
-           "name": "vpc_1",
-           "size": 50,
-           "href": "icons/aws_igw.png",
-           "children": [
-               {
-                   "name": "null",
-                   "children": [],
-                   "size": 4.0
-               },
-               {
-                   "id": "subnet-06bf0ca56f05b14bc",
-                   "az": "ap-northeast-2a",
-                   "cidr_block": "172.16.0.0/24",
-                   "state": "available",
-                   "Natgws": [],
-                   "RouteTable": [
-                       {
-                           "DestinationCidrBlock": "172.16.0.0/16",
-                           "GatewayId": "local",
-                           "Origin": "CreateRouteTable",
-                           "State": "active"
-                       },
-                       {
-                           "DestinationCidrBlock": "0.0.0.0/0",
-                           "GatewayId": "igw-04090f357bc78f175",
-                           "Origin": "CreateRoute",
-                           "State": "active"
-                       }
-                   ],
-                   "name": "subnet_10",
-                   "size": 40,
-                   "href": "icons/aws_route_table.png",
-                   "children": [
-                       {
-                           "name": "null",
-                           "children": [],
-                           "size": 3.0
-                       },
-                       {
-                           "id": "i-0fec9eb99b124fa42",
-                           "type": "t2.micro",
-                           "launch_time": "2021-03-28 09:12:29+00:00",
-                           "state": {
-                               "Code": 16,
-                               "Name": "running"
-                           },
-                           "public_ip_address": "52.79.68.112",
-                           "public_dns_name": "",
-                           "private_ip_address": "172.16.0.87",
-                           "private_dns_name": "ip-172-16-0-87.ap-northeast-2.compute.internal",
-                           "ami_id": "ami-0078a04747667d409",
-                           "Security_groups": [
-                               {
-                                   "GroupName": "launch-wizard-1",
-                                   "GroupId": "sg-0492b19a3c5d1d734",
-                                   "Inbound": [
-                                       {
-                                           "FromPort": 80,
-                                           "IpProtocol": "tcp",
-                                           "IpRanges": [
-                                               {
-                                                   "CidrIp": "0.0.0.0/0"
-                                               }
-                                           ],
-                                           "Ipv6Ranges": [
-                                               {
-                                                   "CidrIpv6": "::/0"
-                                               }
-                                           ],
-                                           "PrefixListIds": [],
-                                           "ToPort": 80,
-                                           "UserIdGroupPairs": []
-                                       },
-                                       {
-                                           "FromPort": 22,
-                                           "IpProtocol": "tcp",
-                                           "IpRanges": [
-                                               {
-                                                   "CidrIp": "61.74.103.186/32",
-                                                   "Description": ""
-                                               }
-                                           ],
-                                           "Ipv6Ranges": [],
-                                           "PrefixListIds": [],
-                                           "ToPort": 22,
-                                           "UserIdGroupPairs": []
-                                       },
-                                       {
-                                           "FromPort": 443,
-                                           "IpProtocol": "tcp",
-                                           "IpRanges": [
-                                               {
-                                                   "CidrIp": "0.0.0.0/0"
-                                               }
-                                           ],
-                                           "Ipv6Ranges": [
-                                               {
-                                                   "CidrIpv6": "::/0"
-                                               }
-                                           ],
-                                           "PrefixListIds": [],
-                                           "ToPort": 443,
-                                           "UserIdGroupPairs": []
-                                       }
-                                   ],
-                                   "Outbound": [
-                                       {
-                                           "IpProtocol": "-1",
-                                           "IpRanges": [
-                                               {
-                                                   "CidrIp": "0.0.0.0/0"
-                                               }
-                                           ],
-                                           "Ipv6Ranges": [],
-                                           "PrefixListIds": [],
-                                           "UserIdGroupPairs": []
-                                       }
-                                   ]
-                               }
-                           ],
-                           "root_volume": {
-                               "id": "vol-02346cd24cd5e18a8",
-                               "name": "/dev/sda1",
-                               "state": "attached",
-                               "attach_time": "2021-03-28 09:12:30+00:00",
-                               "size": 8,
-                               "type": "gp2",
-                               "throughput": null
-                           },
-                           "name": "inst_100",
-                           "size": 30,
-                           "href": "icons/aws_ec2.png",
-                           "children": [
-                               {
-                                   "name": "null",
-                                   "children": [],
-                                   "size": 2.0
-                               }
-                           ]
-                       }
-                   ]
-               },
-               {
-                   "id": "subnet-055da60583e5a539d",
-                   "az": "ap-northeast-2c",
-                   "cidr_block": "172.16.2.0/24",
-                   "state": "available",
-                   "Natgws": [],
-                   "RouteTable": [],
-                   "name": "subnet_11",
-                   "size": 40,
-                   "href": "icons/aws_route_table.png",
-                   "children": [
-                       {
-                           "name": "null",
-                           "children": [],
-                           "size": 3.0
-                       }
-                   ]
-               },
-               {
-                   "id": "subnet-09a4718c40b9de787",
-                   "az": "ap-northeast-2b",
-                   "cidr_block": "172.16.1.0/24",
-                   "state": "available",
-                   "Natgws": [],
-                   "RouteTable": [
-                       {
-                           "DestinationCidrBlock": "172.16.0.0/16",
-                           "GatewayId": "local",
-                           "Origin": "CreateRouteTable",
-                           "State": "active"
-                       },
-                       {
-                           "DestinationCidrBlock": "0.0.0.0/0",
-                           "NatGatewayId": "nat-05d80f43f2bc9ee28",
-                           "Origin": "CreateRoute",
-                           "State": "blackhole"
-                       }
-                   ],
-                   "name": "subnet_12",
-                   "size": 40,
-                   "href": "icons/aws_route_table.png",
-                   "children": [
-                       {
-                           "name": "null",
-                           "children": [],
-                           "size": 3.0
-                       }
-                   ]
-               }
-           ],
-           "Igws": []
-       }
-   ]
+    "links": [
+        {
+            "source": "vpc-d38e0fb8",
+            "target": "subnet-b37ac9d8"
+        },
+        {
+            "source": "vpc-d38e0fb8",
+            "target": "subnet-1fe81840"
+        },
+        {
+            "source": "vpc-d38e0fb8",
+            "target": "subnet-90a8c4eb"
+        },
+        {
+            "source": "vpc-d38e0fb8",
+            "target": "subnet-8b29cec4"
+        },
+        {
+            "source": "vpc-08bafc22adcde27c6",
+            "target": "subnet-06bf0ca56f05b14bc"
+        },
+        {
+            "source": "vpc-08bafc22adcde27c6",
+            "target": "subnet-055da60583e5a539d"
+        },
+        {
+            "source": "vpc-08bafc22adcde27c6",
+            "target": "subnet-09a4718c40b9de787"
+        }
+    ],
+    "root": {
+        "name": "root",
+        "href": "icons/aws_root.png",
+        "children": [
+            {
+                "id": "vpc-d38e0fb8",
+                "state": "available",
+                "cidr_block": "172.31.0.0/16",
+                "name": "vpc_0",
+                "size": 5,
+                "href": "icons/aws_igw.png",
+                "children": [
+                    {
+                        "name": "router_vpc_0",
+                        "children": [],
+                        "size": 1
+                    },
+                    {
+                        "id": "subnet-b37ac9d8",
+                        "az": "ap-northeast-2a",
+                        "cidr_block": "172.31.0.0/20",
+                        "state": "available",
+                        "Natgws": [],
+                        "RouteTable": [],
+                        "name": "subnet_00",
+                        "size": 4,
+                        "href": "icons/aws_route_table.png",
+                        "children": [
+                            {
+                                "name": "null",
+                                "children": [],
+                                "size": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "subnet-1fe81840",
+                        "az": "ap-northeast-2d",
+                        "cidr_block": "172.31.48.0/20",
+                        "state": "available",
+                        "Natgws": [],
+                        "RouteTable": [],
+                        "name": "subnet_01",
+                        "size": 4,
+                        "href": "icons/aws_route_table.png",
+                        "children": [
+                            {
+                                "name": "null",
+                                "children": [],
+                                "size": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "subnet-90a8c4eb",
+                        "az": "ap-northeast-2b",
+                        "cidr_block": "172.31.16.0/20",
+                        "state": "available",
+                        "Natgws": [],
+                        "RouteTable": [],
+                        "name": "subnet_02",
+                        "size": 4,
+                        "href": "icons/aws_route_table.png",
+                        "children": [
+                            {
+                                "name": "null",
+                                "children": [],
+                                "size": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "subnet-8b29cec4",
+                        "az": "ap-northeast-2c",
+                        "cidr_block": "172.31.32.0/20",
+                        "state": "available",
+                        "Natgws": [],
+                        "RouteTable": [],
+                        "name": "subnet_03",
+                        "size": 4,
+                        "href": "icons/aws_route_table.png",
+                        "children": [
+                            {
+                                "name": "null",
+                                "children": [],
+                                "size": 1
+                            }
+                        ]
+                    }
+                ],
+                "Igws": []
+            },
+            {
+                "id": "vpc-08bafc22adcde27c6",
+                "state": "available",
+                "cidr_block": "172.16.0.0/16",
+                "name": "vpc_1",
+                "size": 5,
+                "href": "icons/aws_igw.png",
+                "children": [
+                    {
+                        "name": "router_vpc_1",
+                        "children": [],
+                        "size": 1
+                    },
+                    {
+                        "id": "subnet-06bf0ca56f05b14bc",
+                        "az": "ap-northeast-2a",
+                        "cidr_block": "172.16.0.0/24",
+                        "state": "available",
+                        "Natgws": [],
+                        "RouteTable": [
+                            {
+                                "DestinationCidrBlock": "172.16.0.0/16",
+                                "GatewayId": "local",
+                                "Origin": "CreateRouteTable",
+                                "State": "active"
+                            },
+                            {
+                                "DestinationCidrBlock": "0.0.0.0/0",
+                                "GatewayId": "igw-04090f357bc78f175",
+                                "Origin": "CreateRoute",
+                                "State": "active"
+                            }
+                        ],
+                        "name": "subnet_10",
+                        "size": 4,
+                        "href": "icons/aws_route_table.png",
+                        "children": [
+                            {
+                                "name": "null",
+                                "children": [],
+                                "size": 1
+                            },
+                            {
+                                "id": "i-0fec9eb99b124fa42",
+                                "type": "t2.micro",
+                                "launch_time": "2021-03-28 09:12:29+00:00",
+                                "state": {
+                                    "Code": 16,
+                                    "Name": "running"
+                                },
+                                "public_ip_address": "52.79.68.112",
+                                "public_dns_name": "",
+                                "private_ip_address": "172.16.0.87",
+                                "private_dns_name": "ip-172-16-0-87.ap-northeast-2.compute.internal",
+                                "ami_id": "ami-0078a04747667d409",
+                                "Security_groups": [
+                                    {
+                                        "GroupName": "launch-wizard-1",
+                                        "GroupId": "sg-0492b19a3c5d1d734",
+                                        "Inbound": [
+                                            {
+                                                "FromPort": 80,
+                                                "IpProtocol": "tcp",
+                                                "IpRanges": [
+                                                    {
+                                                        "CidrIp": "0.0.0.0/0"
+                                                    }
+                                                ],
+                                                "Ipv6Ranges": [
+                                                    {
+                                                        "CidrIpv6": "::/0"
+                                                    }
+                                                ],
+                                                "PrefixListIds": [],
+                                                "ToPort": 80,
+                                                "UserIdGroupPairs": []
+                                            },
+                                            {
+                                                "FromPort": 22,
+                                                "IpProtocol": "tcp",
+                                                "IpRanges": [
+                                                    {
+                                                        "CidrIp": "61.74.103.186/32",
+                                                        "Description": ""
+                                                    }
+                                                ],
+                                                "Ipv6Ranges": [],
+                                                "PrefixListIds": [],
+                                                "ToPort": 22,
+                                                "UserIdGroupPairs": []
+                                            },
+                                            {
+                                                "FromPort": 443,
+                                                "IpProtocol": "tcp",
+                                                "IpRanges": [
+                                                    {
+                                                        "CidrIp": "0.0.0.0/0"
+                                                    }
+                                                ],
+                                                "Ipv6Ranges": [
+                                                    {
+                                                        "CidrIpv6": "::/0"
+                                                    }
+                                                ],
+                                                "PrefixListIds": [],
+                                                "ToPort": 443,
+                                                "UserIdGroupPairs": []
+                                            }
+                                        ],
+                                        "Outbound": [
+                                            {
+                                                "IpProtocol": "-1",
+                                                "IpRanges": [
+                                                    {
+                                                        "CidrIp": "0.0.0.0/0"
+                                                    }
+                                                ],
+                                                "Ipv6Ranges": [],
+                                                "PrefixListIds": [],
+                                                "UserIdGroupPairs": []
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "root_volume": {
+                                    "id": "vol-02346cd24cd5e18a8",
+                                    "name": "/dev/sda1",
+                                    "state": "attached",
+                                    "attach_time": "2021-03-28 09:12:30+00:00",
+                                    "size": 8,
+                                    "type": "gp2",
+                                    "throughput": null
+                                },
+                                "name": "inst_100",
+                                "size": 3,
+                                "href": "icons/aws_ec2.png",
+                                "children": [
+                                    {
+                                        "name": "null",
+                                        "children": [],
+                                        "size": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "subnet-055da60583e5a539d",
+                        "az": "ap-northeast-2c",
+                        "cidr_block": "172.16.2.0/24",
+                        "state": "available",
+                        "Natgws": [],
+                        "RouteTable": [],
+                        "name": "subnet_11",
+                        "size": 4,
+                        "href": "icons/aws_route_table.png",
+                        "children": [
+                            {
+                                "name": "null",
+                                "children": [],
+                                "size": 1
+                            }
+                        ]
+                    },
+                    {
+                        "id": "subnet-09a4718c40b9de787",
+                        "az": "ap-northeast-2b",
+                        "cidr_block": "172.16.1.0/24",
+                        "state": "available",
+                        "Natgws": [],
+                        "RouteTable": [
+                            {
+                                "DestinationCidrBlock": "172.16.0.0/16",
+                                "GatewayId": "local",
+                                "Origin": "CreateRouteTable",
+                                "State": "active"
+                            },
+                            {
+                                "DestinationCidrBlock": "0.0.0.0/0",
+                                "NatGatewayId": "nat-05d80f43f2bc9ee28",
+                                "Origin": "CreateRoute",
+                                "State": "blackhole"
+                            }
+                        ],
+                        "name": "subnet_12",
+                        "size": 4,
+                        "href": "icons/aws_route_table.png",
+                        "children": [
+                            {
+                                "name": "null",
+                                "children": [],
+                                "size": 1
+                            }
+                        ]
+                    }
+                ],
+                "Igws": []
+            }
+        ]
+    }
 }
