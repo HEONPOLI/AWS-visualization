@@ -9,11 +9,11 @@ def myconverter(o):
         return o.__str__()
 
 
-def null_node(r):
+def center_node(r, name):
     node = defaultdict()
-    node['name'] = 'null'
+    node['name'] = name
     node['children'] = []
-    node['size'] = r / 10
+    node['size'] = 1
 
     return node
 
@@ -24,25 +24,31 @@ client = boto3.client('ec2')
 
 radius = defaultdict()
 # vpc
-radius['layer_1'] = 50
+radius['layer_1'] = 5
 # subnet, igw
-radius['layer_2'] = 40
+radius['layer_2'] = 4
 # inst
-radius['layer_3'] = 30
+radius['layer_3'] = 3
 
-radius['layer_4'] = 20
+radius['layer_4'] = 2
 
 vpc_idx = 0
 subnet_idx = 0
 inst_idx = 0
 nat_idx = 0
 igw_idx = 0
+elb_idx = 0
+rds_idx = 0
+
+# hierarchy data + link data
+graph = defaultdict()
+graph['links'] = []
 
 root_node = defaultdict()
 root_node['name'] = 'root'
 root_node['href'] = 'icons/aws_root.png'
 root_node['children'] = []
-root_node['children'].append(null_node(radius['layer_1']))
+# root_node['children'].append(null_node(radius['layer_1']))
 
 vpcs = ec2.vpcs.all()
 for vpc in vpcs:
@@ -53,8 +59,27 @@ for vpc in vpcs:
     vpc_node['name'] = 'vpc_' + str(vpc_idx)
     vpc_node['size'] = radius['layer_1']
     vpc_node['href'] = 'icons/aws_igw.png'
-    vpc_node['children'] = []
-    vpc_node['children'].append(null_node(radius['layer_2']))
+    vpc_node['children'] = [center_node(radius['layer_2'], 'null')]
+
+    response = boto3.client('elb').describe_load_balancers()
+    for elb in response['LoadBalancerDescriptions']:
+        if elb['VPCId'] == vpc_node['id']:
+            elb_node = defaultdict()
+            elb_node['id'] = 'elb_' + vpc_node['id']
+            elb_node['name'] = elb['LoadBalancerName']
+            elb_node['dns_name'] = elb['DNSName']
+            elb_node['policies'] = elb['Policies']
+            elb_node['azs'] = elb['AvailabilityZones']
+            elb_node['subnet_ids'] = elb['Subnets']
+            elb_node['vpc_id'] = elb['VPCId']
+            elb_node['sg'] = elb['SecurityGroups']
+            elb_node['children'] = [center_node(radius['layer_3'], 'null')]
+
+            for ele in elb['Instances']:
+                graph['links'].append({'source': elb_node['id'], 'target': ele['InstanceId']})
+
+            vpc_node['children'].append(elb_node)
+            break
 
     vpc_node['Igws'] = []
     igws = vpc.internet_gateways.all()
@@ -66,8 +91,9 @@ for vpc in vpcs:
         igw_node['size'] = radius['layer_2']
         igw_node['href'] = 'icons/aws_igw.png'
         igw_node['children'] = []
-        igw_node['children'].append(null_node(radius['layer_3']))
+        igw_node['children'].append(center_node(radius['layer_3'], 'null'))
         # vpc_node['children'].append(igw_node)
+
         igw_idx += 1
     igw_idx = 0
 
@@ -78,6 +104,10 @@ for vpc in vpcs:
         subnet_node['az'] = subnet.availability_zone
         subnet_node['cidr_block'] = subnet.cidr_block
         subnet_node['state'] = subnet.state
+        subnet_node['name'] = 'subnet_' + str(vpc_idx) + str(subnet_idx)
+        subnet_node['size'] = radius['layer_2']
+        subnet_node['href'] = 'icons/aws_route_table.png'
+        subnet_node['children'] = [center_node(radius['layer_3'], 'null')]
         subnet_node['Natgws'] = client.describe_nat_gateways(
             Filters=[
                 {
@@ -108,11 +138,23 @@ for vpc in vpcs:
             subnet_node['RouteTable'] = response['RouteTables'][0]['Routes']
         else:
             subnet_node['RouteTable'] = []
-        subnet_node['name'] = 'subnet_' + str(vpc_idx) + str(subnet_idx)
-        subnet_node['size'] = radius['layer_2']
-        subnet_node['href'] = 'icons/aws_route_table.png'
-        subnet_node['children'] = []
-        subnet_node['children'].append(null_node(radius['layer_3']))
+
+        response = boto3.client('rds').describe_db_instances()
+        for rds in response['DBInstances']:
+            for ele in rds['DBSubnetGroup']['Subnets']:
+                if rds['DBSubnetGroup']['VpcId'] == vpc.vpc_id and ele['SubnetIdentifier'] == subnet.subnet_id:
+                    rds_node = defaultdict()
+                    rds_node['id'] = rds['DBInstanceIdentifier']
+                    rds_node['name'] = rds['DBName']
+                    rds_node['engine'] = rds['Engine']
+                    rds_node['endpoint'] = rds['Endpoint']  # includes DNS address of thd DB instance
+                    rds_node['create_time'] = rds['InstanceCreateTime']
+                    rds_node['sg'] = rds['DBSecurityGroups']
+                    rds_node['az'] = rds['AvailabilityZone']
+                    rds_node['vpc_id'] = rds['DBSubnetGroup']['VpcId']
+                    rds_node['children'] = [center_node(radius['layer_4'], 'null')]
+                    subnet_node['children'].append(rds_node)
+                    break
 
         instances = subnet.instances.all()
         for inst in instances:
@@ -148,11 +190,16 @@ for vpc in vpcs:
             inst_node['name'] = 'inst_' + str(vpc_idx) + str(subnet_idx) + str(inst_idx)
             inst_node['size'] = radius['layer_3']
             inst_node['href'] = 'icons/aws_ec2.png'
-            inst_node['children'] = []
-            inst_node['children'].append(null_node(radius['layer_4']))
+            inst_node['children'] = [center_node(radius['layer_4'], 'null')]
             subnet_node['children'].append(inst_node)
             inst_idx += 1
         inst_idx = 0
+
+        # link_vpc_subnet = defaultdict()
+        # link_vpc_subnet['source'] = vpc_node['id']
+        # link_vpc_subnet['target'] = subnet_node['id']
+        # graph['links'].append(link_vpc_subnet)
+        graph['links'].append({'source': vpc_node['id'], 'target': subnet_node['id']})
 
         vpc_node['children'].append(subnet_node)
         subnet_idx += 1
@@ -162,7 +209,8 @@ for vpc in vpcs:
     vpc_idx += 1
 vpc_idx = 0
 
+graph['root'] = root_node
 
 with open("C:/Users/ssp04/Desktop/Circle_Packing/packed_circle/json/packed_circle.json", "w") as json_file:
-    json.dump(root_node, json_file, default=myconverter, indent=4)
+    json.dump(graph, json_file, default=myconverter, indent=4)
     json_file.close()

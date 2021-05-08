@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-    <link rel="stylesheet" href="css/packed_circle.css">
+    <link rel="stylesheet" href="css/packed_circle.css" />
     <style>
-        svg {
-            border: 1px solid red;
-        }
+      svg {
+        border: 1px solid red;
+      }
     </style>
-    <script src="https://kit.fontawesome.com/b98b5bbdbb.js" crossorigin="anonymous"></script>
-</head>
-<body>
+    <script
+      src="https://kit.fontawesome.com/b98b5bbdbb.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <select id="drop-down">
-        <option value="init">--Please choose an option--</option>
-        <option value="vpc">VPC</option>
-        <option value="subnet">Subnet</option>
-        <option value="inst">EC2</option>
-        <option value="rds">RDS</option>
-        <option value="natgw">NAT Gateway</option>
-        <option value="s3">S3</option>
-        <option value="itngw">Internet Gateway</option>
+      <option value="init">--Please choose an option--</option>
+      <option value="vpc">VPC</option>
+      <option value="subnet">Subnet</option>
+      <option value="inst">EC2</option>
+      <option value="rds">RDS</option>
+      <option value="natgw">NAT Gateway</option>
+      <option value="s3">S3</option>
+      <option value="itngw">Internet Gateway</option>
     </select>
 
     <div>
-        <button type="button" class="button--return">
-            <i class="fas fa-undo-alt fa-3x"></i>
-        </button>
-        <button type="button" class="button--view">
-            <i class="fas fa-map-marked-alt fa-3x"></i>
-        </button>
-        <svg width="960" height="960"></svg>
+      <button type="button" class="button--return">
+        <i class="fas fa-undo-alt fa-3x"></i>
+      </button>
+      <button type="button" class="button--view">
+        <i class="fas fa-map-marked-alt fa-3x"></i>
+      </button>
+      <button type="button" class="button--link">
+        <i class="fas fa-project-diagram fa-3x"></i>
+      </button>
+
+      <svg width="960" height="960"></svg>
     </div>
 
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="packed_circle.js"></script>
     <!-- <script src="scratch.js"></script> -->
-</body>
+  </body>
 </html>
