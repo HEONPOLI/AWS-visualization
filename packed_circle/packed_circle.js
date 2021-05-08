@@ -11,7 +11,12 @@ const nodeGroup = svg
   .attr("class", "nodeGroup")
   .attr("transform", `translate(${diameter / 2}, ${diameter / 2})`);
 
+const defs = svg.append("defs");
+
 let labelGroup = null;
+let linkGroup = null;
+
+let showLink = true;
 let zoomAble = true; // unable to zoom while searching
 
 const color = d3
@@ -28,18 +33,49 @@ const pack = d3
 const dropDown = document.querySelector("select");
 const retButton = document.querySelector(".button--return");
 const viewButton = document.querySelector(".button--view");
+const linkButton = document.querySelector(".button--link");
 
 //<<<================== init DEFINITION ==================>>>
 
-const init = function (root) {
+const init = function (graph) {
   root = d3
-    .hierarchy(root)
+    .hierarchy(graph.root)
     .sum((d) => d.size)
     .sort((a, b) => b.value - a.value);
 
   const nodes = pack(root).descendants();
+  const links = graph.links;
+
   let focus = root;
   let view;
+
+  defs
+    .append("marker")
+    .attr("id", "marker-dot")
+    .attr("markerHeight", 5)
+    .attr("markerWidth", 5)
+    .attr("markerUnits", "strokeWidth")
+    .attr("orient", "auto")
+    .attr("refX", 0)
+    .attr("refY", 0)
+    .attr("viewBox", "-6 -6 12 12")
+    .append("path")
+    .attr("d", "M 0, 0  m -5, 0  a 5,5 0 1,0 10,0  a 5,5 0 1,0 -10,0")
+    .attr("fill", "white");
+
+  defs
+    .append("marker")
+    .attr("id", "marker-arrow")
+    .attr("markerHeight", 5)
+    .attr("markerWidth", 5)
+    .attr("markerUnits", "strokeWidth")
+    .attr("orient", "auto")
+    .attr("refX", 0)
+    .attr("refY", 0)
+    .attr("viewBox", "-5 -5 10 10")
+    .append("path")
+    .attr("d", "M 0,0 m -5,-5 L 5,0 L -5,5 Z")
+    .attr("fill", "white");
 
   const circle = nodeGroup
     .selectAll("circle")
@@ -66,6 +102,13 @@ const init = function (root) {
         event.stopPropagation();
       }
     });
+  // .call(
+  //   d3
+  //     .drag()
+  //     .on("start", dragstarted)
+  //     .on("drag", dragged)
+  //     .on("end", dragended)
+  // );
 
   const image = nodeGroup
     .selectAll("image")
@@ -94,6 +137,7 @@ const init = function (root) {
     if (val !== "init") {
       zoomAble = false;
       retButton.disabled = true;
+      linkButton.disabled = true;
 
       nodeGroup
         .selectAll("circle")
@@ -106,6 +150,9 @@ const init = function (root) {
         .style("opacity", (d) =>
           d.data.name.startsWith(val) ? 1 : d !== root ? 0 : null
         );
+
+      linkGroup.selectAll("path").style("display", "none");
+      showLink = false;
     }
   });
 
@@ -114,14 +161,26 @@ const init = function (root) {
   viewButton.addEventListener("click", function (event) {
     zoomAble = true;
     retButton.disabled = false;
-
-    nodeGroup.selectAll("circle").style("opacity", (d) => 1);
+    linkButton.disabled = false;
 
     nodeGroup
       .selectAll("image")
       .style("opacity", (d) => (d.height === 1 ? 1 : 0));
 
+    nodeGroup.selectAll("circle").style("opacity", (d) => 1);
+
+    linkGroup.selectAll("path").style("display", "inline");
+    showLink = true;
+
     dropDown.selectedIndex = 0;
+  });
+
+  linkButton.addEventListener("click", function (event) {
+    linkGroup.selectAll("path").style("display", () => {
+      return showLink ? "none" : "inline";
+    });
+
+    showLink = !showLink;
   });
 
   //<<<================== zoom DEFINITION ==================>>>
@@ -170,10 +229,53 @@ const init = function (root) {
 
     circle.attr("r", (d) => d.r * k);
 
-    image.attr("y", (d) => (-d.r / 4) * k);
     image.attr("x", (d) => (-d.r / 4) * k);
+    image.attr("y", (d) => (-d.r / 4) * k);
     image.attr("width", (d) => (d.r / 2) * k);
     image.attr("height", (d) => (d.r / 2) * k);
+
+    //<<<================== link Generation ==================>>>
+
+    d3.selectAll(".linkGroup").remove();
+    linkGroup = svg
+      .append("g")
+      .attr("class", "linkGroup")
+      .attr("transform", `translate(${diameter / 2}, ${diameter / 2})`);
+
+    for (let i = 0; i < links.length; i++) {
+      const from = root.find((d) => d.data.id === links[i].source);
+      const to = root.find((d) => d.data.id === links[i].target);
+
+      const lineStart = [(from.x - v[0]) * k, (from.y - v[1]) * k];
+      const lineEnd = [(to.x - v[0]) * k, (to.y - v[1]) * k];
+
+      const path = linkGroup
+        .append("path")
+        .attr("d", d3.line()([lineStart, lineEnd]))
+        .attr("stroke-width", 2.5)
+        .attr("stroke-linecap", "round")
+        .attr("stroke", "white")
+        .attr("marker-start", "url(#marker-dot)")
+        .attr("marker-end", "url(#marker-arrow)");
+
+      let totalLength = path.node().getTotalLength();
+      path
+        .attr("stroke-dasharray", "10, 20")
+        // .attr("stroke-dasharray", totalLength + " " + 20)
+        .attr("stroke-dashoffset", totalLength)
+        .each(cycle);
+
+      function cycle() {
+        d3.select(this)
+          .transition()
+          .duration(3000)
+          .ease(d3.easeLinear)
+          .attrTween("stroke-dashoffset", function () {
+            return d3.interpolateNumber(totalLength, 0);
+          })
+          .on("end", cycle);
+      }
+    }
 
     appendLabel(v, k);
   }
