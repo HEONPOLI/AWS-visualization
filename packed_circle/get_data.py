@@ -13,7 +13,7 @@ def center_node(r, name):
     node = defaultdict()
     node['name'] = name
     node['children'] = []
-    node['size'] = 1
+    node['size'] = 0.5
 
     return node
 
@@ -56,17 +56,18 @@ for vpc in vpcs:
     vpc_node['id'] = vpc.vpc_id
     vpc_node['state'] = vpc.state
     vpc_node['cidr_block'] = vpc.cidr_block
-    vpc_node['name'] = 'vpc_' + str(vpc_idx)
+    vpc_node['name'] = 'vpc-' + str(vpc_idx)
     vpc_node['size'] = radius['layer_1']
-    vpc_node['href'] = 'icons/aws_igw.png'
+    vpc_node['href'] = 'icons/aws_vpc.png'
     vpc_node['children'] = [center_node(radius['layer_2'], 'null')]
 
     response = boto3.client('elb').describe_load_balancers()
     for elb in response['LoadBalancerDescriptions']:
         if elb['VPCId'] == vpc_node['id']:
             elb_node = defaultdict()
-            elb_node['id'] = 'elb_' + vpc_node['id']
-            elb_node['name'] = elb['LoadBalancerName']
+            elb_node['id'] = 'elb-' + vpc_node['id']
+            elb_node['name'] = 'elb-' + elb['LoadBalancerName']
+            elb_node['href'] = 'icons/aws_elb.png'
             elb_node['dns_name'] = elb['DNSName']
             elb_node['policies'] = elb['Policies']
             elb_node['azs'] = elb['AvailabilityZones']
@@ -87,13 +88,12 @@ for vpc in vpcs:
         igw_node = defaultdict()
         igw_node['id'] = igw.internet_gateway_id
         igw_node['attachments'] = ec2.InternetGateway(igw_node['id']).attachments
-        igw_node['name'] = 'igw_' + str(vpc_idx) + str(igw_idx)
+        igw_node['name'] = 'igw-' + str(vpc_idx) + str(igw_idx)
         igw_node['size'] = radius['layer_2']
         igw_node['href'] = 'icons/aws_igw.png'
         igw_node['children'] = []
         igw_node['children'].append(center_node(radius['layer_3'], 'null'))
         # vpc_node['children'].append(igw_node)
-
         igw_idx += 1
     igw_idx = 0
 
@@ -104,11 +104,11 @@ for vpc in vpcs:
         subnet_node['az'] = subnet.availability_zone
         subnet_node['cidr_block'] = subnet.cidr_block
         subnet_node['state'] = subnet.state
-        subnet_node['name'] = 'subnet_' + str(vpc_idx) + str(subnet_idx)
+        subnet_node['name'] = 'subnet-' + str(vpc_idx) + str(subnet_idx)
         subnet_node['size'] = radius['layer_2']
-        subnet_node['href'] = 'icons/aws_route_table.png'
         subnet_node['children'] = [center_node(radius['layer_3'], 'null')]
-        subnet_node['Natgws'] = client.describe_nat_gateways(
+
+        response = client.describe_nat_gateways(
             Filters=[
                 {
                     'Name': 'vpc-id',
@@ -123,7 +123,21 @@ for vpc in vpcs:
                     ]
                 }
             ]
-        )['NatGateways']
+        )
+
+        for nat in response['NatGateways']:
+            nat_node = defaultdict()
+            nat_node['id'] = nat['NatGatewayId']
+            nat_node['name'] = 'nat-' + str(vpc_idx) + str(subnet_idx) + str(nat_idx)
+            nat_node['state'] = nat['State']
+            nat_node['publicIp'] = nat['publicIp']
+            nat_node['privateIp'] = nat['privateIp']
+            nat_node['href'] = 'icons/aws_nat'
+            nat_node['CreateTime'] = nat['CreateTime']
+            subnet_node['children'] = nat_node
+            nat_idx += 1
+        nat_idx = 0
+
         response = client.describe_route_tables(
             Filters=[
                 {
@@ -134,18 +148,29 @@ for vpc in vpcs:
                 }
             ]
         )
+
         if len(response['RouteTables']):
             subnet_node['RouteTable'] = response['RouteTables'][0]['Routes']
+            for entry in subnet_node['RouteTable']:
+                if entry['DestinationCidrBlock'] == '0.0.0.0/0':
+                    if 'GatewayId' in entry:
+                        subnet_node['type'] = 'private'
+                    else:
+                        subnet_node['type'] = 'public'
         else:
             subnet_node['RouteTable'] = []
+            subnet_node['type'] = 'empty'
+        subnet_node['href'] = 'icons/aws_' + subnet_node['type'] + '_subnet.png'
 
         response = boto3.client('rds').describe_db_instances()
         for rds in response['DBInstances']:
             for ele in rds['DBSubnetGroup']['Subnets']:
+                rds_idx = 0
                 if rds['DBSubnetGroup']['VpcId'] == vpc.vpc_id and ele['SubnetIdentifier'] == subnet.subnet_id:
                     rds_node = defaultdict()
-                    rds_node['id'] = rds['DBInstanceIdentifier']
-                    rds_node['name'] = rds['DBName']
+                    rds_node['id'] = rds['DbiResourceId']
+                    rds_node['name'] = 'rds-' + str(vpc_idx) + str(subnet_idx) + str(rds_idx)
+                    rds_node['href'] = 'icons/aws_rds.png'
                     rds_node['engine'] = rds['Engine']
                     rds_node['endpoint'] = rds['Endpoint']  # includes DNS address of thd DB instance
                     rds_node['create_time'] = rds['InstanceCreateTime']
@@ -154,6 +179,7 @@ for vpc in vpcs:
                     rds_node['vpc_id'] = rds['DBSubnetGroup']['VpcId']
                     rds_node['children'] = [center_node(radius['layer_4'], 'null')]
                     subnet_node['children'].append(rds_node)
+                    rds_idx += 1
                     break
 
         instances = subnet.instances.all()
@@ -187,7 +213,7 @@ for vpc in vpcs:
             inst_node['root_volume']['type'] = volume.volume_type
             inst_node['root_volume']['throughput'] = volume.throughput
 
-            inst_node['name'] = 'inst_' + str(vpc_idx) + str(subnet_idx) + str(inst_idx)
+            inst_node['name'] = 'inst-' + str(vpc_idx) + str(subnet_idx) + str(inst_idx)
             inst_node['size'] = radius['layer_3']
             inst_node['href'] = 'icons/aws_ec2.png'
             inst_node['children'] = [center_node(radius['layer_4'], 'null')]
@@ -195,10 +221,6 @@ for vpc in vpcs:
             inst_idx += 1
         inst_idx = 0
 
-        # link_vpc_subnet = defaultdict()
-        # link_vpc_subnet['source'] = vpc_node['id']
-        # link_vpc_subnet['target'] = subnet_node['id']
-        # graph['links'].append(link_vpc_subnet)
         graph['links'].append({'source': vpc_node['id'], 'target': subnet_node['id']})
 
         vpc_node['children'].append(subnet_node)
