@@ -1,47 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="css/packed_circle.css" />
+
+    <link rel="stylesheet" href="./packed_circle.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <!-- CSS only -->
     <style>
-      svg {
-        border: 1px solid red;
-      }
+        svg {
+            border: 1px solid red;
+        }
     </style>
-    <script
-      src="https://kit.fontawesome.com/b98b5bbdbb.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <select id="drop-down">
-      <option value="init">--Please choose an option--</option>
-      <option value="vpc">VPC</option>
-      <option value="subnet">Subnet</option>
-      <option value="inst">EC2</option>
-      <option value="rds">RDS</option>
-      <option value="natgw">NAT Gateway</option>
-      <option value="s3">S3</option>
-      <option value="itngw">Internet Gateway</option>
-    </select>
-
-    <div>
-      <button type="button" class="button--return">
-        <i class="fas fa-undo-alt fa-3x"></i>
-      </button>
-      <button type="button" class="button--view">
-        <i class="fas fa-map-marked-alt fa-3x"></i>
-      </button>
-      <button type="button" class="button--link">
-        <i class="fas fa-project-diagram fa-3x"></i>
-      </button>
-
-      <svg width="960" height="960"></svg>
+    <script src="https://kit.fontawesome.com/b98b5bbdbb.js" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<header>
+    <span class="logo">DICT</span>
+    <ul>
+        <li class="navbar-item"><a class="navbar-link active" href="./home.html">HOME</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="#">DISPLAY</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="./iam.html">IAM</a></li>
+    </ul>
+</header>
+    <div class="side-left">
+        <div class="list">Resource List</div>
+        <div class="dropdown vpc">
+            <div class="dropdown-select">
+                <span class="select" id="vpc">VPC</span>
+                <i class="fa fa-caret-down icon"></i>
+            </div>
+            <div class="dropdown-list">
+            </div>
+        </div>
+        <div class="dropdown subnet">
+            <div class="dropdown-select">
+                <span class="select" id="subnet">Subnet</span>
+                <i class="fa fa-caret-down icon"></i>
+            </div>
+            <div class="dropdown-list">
+            </div>
+        </div>
+        <div class="dropdown inst">
+            <div class="dropdown-select">
+                <span class="select" id="inst">EC2</span>
+                <i class="fa fa-caret-down icon"></i>
+            </div>
+            <div class="dropdown-list">
+            </div>
+        </div>
+        <div class="dropdown rds">
+            <div class="dropdown-select">
+                <span class="select" id="rds">RDS</span>
+                <i class="fa fa-caret-down icon"></i>
+            </div>
+            <div class="dropdown-list">
+            </div>
+        </div>
+        <div class="dropdown natgw">
+            <div class="dropdown-select">
+                <span class="select" id="natgw">NAT Gateway</span>
+                <i class="fa fa-caret-down icon"></i>
+            </div>
+            <div class="dropdown-list">
+            </div>
+        </div>
+        <div class="dropdown s3">
+            <div class="dropdown-select">
+                <span class="select" id="s3">S3</span>
+                <i class="fa fa-caret-down icon"></i>
+            </div>
+            <div class="dropdown-list">
+            </div>
+        </div>
+        <div class="dropdown itngw">
+            <div class="dropdown-select">
+                <span class="select" id="itngw">Internet Gateway</span>
+                <i class="fa fa-caret-down icon"></i>
+            </div>
+            <div class="dropdown-list">
+            </div>
+        </div>
+    </div>
+    <div class="side-right">
+        <div class="list">Information</div>
     </div>
 
+
+    <div class="content">
+        <select id="drop-down">
+            <option value="init">--Please choose an option--</option>
+            <option value="vpc">VPC</option>
+            <option value="subnet">Subnet</option>
+            <option value="inst">EC2</option>
+            <option value="rds">RDS</option>
+            <option value="natgw">NAT Gateway</option>
+            <option value="s3">S3</option>
+            <option value="itngw">Internet Gateway</option>
+        </select>
+        <button type="button" class="button--return">
+            <i class="fas fa-undo-alt fa-3x"></i>
+        </button>
+        <button type="button" class="button--view">
+            <i class="fas fa-map-marked-alt fa-3x"></i>
+        </button>
+        <svg width="960" height="960"></svg>
+    </div>
+<!--    <script src="size.js"></script>-->
+
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="js/packed_circle.js"></script>
+    <script src="packed_circle.js"></script>
+    <!-- JavaScript Bundle with Popper -->
     <!-- <script src="scratch.js"></script> -->
-  </body>
+</body>
 </html>
