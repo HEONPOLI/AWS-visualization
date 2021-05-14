@@ -158,7 +158,7 @@ for vpc in vpcs:
             nat_node['privateIp'] = nat['NatGatewayAddresses'][0]['PrivateIp']
             nat_node['href'] = 'icons/aws_nat'
             nat_node['CreateTime'] = nat['CreateTime']
-            subnet_node['children'].append(nat_node) 
+            subnet_node['children'].append(nat_node)
             nat_idx += 1
         nat_idx = 0
 
@@ -179,9 +179,11 @@ for vpc in vpcs:
                 if entry['DestinationCidrBlock'] == '0.0.0.0/0':
                     if 'NatGatewayId' in entry:
                         subnet_node['type'] = 'private'
-                        # graph['links'].append({'source': entry['NatGatewayId'], 'target': subnet_node['id']})
+                        graph['links'].append({'source': entry['NatGatewayId'], 'target': subnet_node['id']})
                     elif 'GatewayId' in entry and 'igw-' in entry['GatewayId']:
                         subnet_node['type'] = 'public'
+                    else:
+                        subnet_node['type'] = 'private'
         else:
             subnet_node['RouteTable'] = []
             subnet_node['type'] = 'empty'
