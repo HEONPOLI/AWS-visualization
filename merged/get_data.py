@@ -154,8 +154,8 @@ for vpc in vpcs:
             nat_node['id'] = nat['NatGatewayId']
             nat_node['name'] = 'nat-' + str(vpc_idx) + str(subnet_idx) + str(nat_idx)
             nat_node['state'] = nat['State']
-            nat_node['publicIp'] = nat['publicIp']
-            nat_node['privateIp'] = nat['privateIp']
+            nat_node['publicIp'] = nat['NatGatewayAddresses']['publicIp']
+            nat_node['privateIp'] = nat['NatGatewayAddresses']['privateIp']
             nat_node['href'] = 'icons/aws_nat'
             nat_node['CreateTime'] = nat['CreateTime']
             subnet_node['children'] = nat_node
