@@ -158,7 +158,7 @@ for vpc in vpcs:
             nat_node['privateIp'] = nat['NatGatewayAddresses'][0]['PrivateIp']
             nat_node['href'] = 'icons/aws_nat'
             nat_node['CreateTime'] = nat['CreateTime']
-            subnet_node['children'] = nat_node
+            subnet_node['children'].append(nat_node) 
             nat_idx += 1
         nat_idx = 0
 
