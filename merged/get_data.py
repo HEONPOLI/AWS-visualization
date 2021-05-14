@@ -45,10 +45,34 @@ graph = defaultdict()
 graph['links'] = []
 
 root_node = defaultdict()
+root_node['id'] = 'root'
 root_node['name'] = 'root'
 root_node['href'] = 'icons/aws_root.png'
 root_node['children'] = []
 # root_node['children'].append(null_node(radius['layer_1']))
+
+rds_list = []
+response = boto3.client('rds').describe_db_instances()
+for rds in response['DBInstances']:
+    rds_idx = 0
+    for sub in rds['DBSubnetGroup']['Subnets']:
+        rds_node = defaultdict()
+        rds_node['id'] = rds['DbiResourceId'] + '@' + str(rds_idx)
+        rds_node['href'] = 'icons/aws_rds.png'
+        rds_node['engine'] = rds['Engine']
+        rds_node['endpoint'] = rds['Endpoint']  # includes DNS address of thd DB instance
+        rds_node['create_time'] = rds['InstanceCreateTime']
+        rds_node['sg'] = rds['DBSecurityGroups']
+        rds_node['az'] = rds['AvailabilityZone']
+        rds_node['vpc_id'] = rds['DBSubnetGroup']['VpcId']
+        rds_node['subnet_id'] = sub['SubnetIdentifier']
+        rds_node['children'] = [center_node(radius['layer_4'], 'null')]
+        rds_list.append(rds_node)
+        rds_idx += 1
+
+    for i in range(rds_idx - 1):
+        graph['links'].append({'source': rds['DbiResourceId'] + '@' + str(i),
+                               'target': rds['DbiResourceId'] + '@' + str(i + 1)})
 
 vpcs = ec2.vpcs.all()
 for vpc in vpcs:
@@ -153,34 +177,21 @@ for vpc in vpcs:
             subnet_node['RouteTable'] = response['RouteTables'][0]['Routes']
             for entry in subnet_node['RouteTable']:
                 if entry['DestinationCidrBlock'] == '0.0.0.0/0':
-                    if 'GatewayId' in entry:
+                    if 'NatGatewayId' in entry:
                         subnet_node['type'] = 'private'
-                    else:
+                        # graph['links'].append({'source': entry['NatGatewayId'], 'target': subnet_node['id']})
+                    elif 'GatewayId' in entry and 'igw-' in entry['GatewayId']:
                         subnet_node['type'] = 'public'
         else:
             subnet_node['RouteTable'] = []
             subnet_node['type'] = 'empty'
         subnet_node['href'] = 'icons/aws_' + subnet_node['type'] + '_subnet.png'
 
-        response = boto3.client('rds').describe_db_instances()
-        for rds in response['DBInstances']:
-            for ele in rds['DBSubnetGroup']['Subnets']:
-                rds_idx = 0
-                if rds['DBSubnetGroup']['VpcId'] == vpc.vpc_id and ele['SubnetIdentifier'] == subnet.subnet_id:
-                    rds_node = defaultdict()
-                    rds_node['id'] = rds['DbiResourceId']
-                    rds_node['name'] = 'rds-' + str(vpc_idx) + str(subnet_idx) + str(rds_idx)
-                    rds_node['href'] = 'icons/aws_rds.png'
-                    rds_node['engine'] = rds['Engine']
-                    rds_node['endpoint'] = rds['Endpoint']  # includes DNS address of thd DB instance
-                    rds_node['create_time'] = rds['InstanceCreateTime']
-                    rds_node['sg'] = rds['DBSecurityGroups']
-                    rds_node['az'] = rds['AvailabilityZone']
-                    rds_node['vpc_id'] = rds['DBSubnetGroup']['VpcId']
-                    rds_node['children'] = [center_node(radius['layer_4'], 'null')]
-                    subnet_node['children'].append(rds_node)
-                    rds_idx += 1
-                    break
+        for rds_node in rds_list:
+            if rds_node['vpc_id'] == vpc.vpc_id and subnet_node['id'] == rds_node['subnet_id']:
+                rds_node['name'] = 'rds-' + str(vpc_idx) + str(subnet_idx)
+                subnet_node['children'].append(rds_node)
+                break
 
         instances = subnet.instances.all()
         for inst in instances:
