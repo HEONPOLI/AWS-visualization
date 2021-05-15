@@ -20,6 +20,7 @@ def center_node(r, name):
 
 data = defaultdict()
 ec2 = boto3.resource('ec2')
+s3 = boto3.resource('s3')
 client = boto3.client('ec2')
 
 radius = defaultdict()
@@ -73,6 +74,18 @@ for rds in response['DBInstances']:
     for i in range(rds_idx - 1):
         graph['links'].append({'source': rds['DbiResourceId'] + '@' + str(i),
                                'target': rds['DbiResourceId'] + '@' + str(i + 1)})
+
+
+response = boto3.client('s3').list_buckets()
+for bucket in response['Buckets']:
+    bucket_node = defaultdict()
+    bucket_node['id'] = 's3-' + bucket['Name']
+    bucket_node['name'] = bucket['Name']
+    bucket_node['href'] = 'icons/aws_s3.png'
+    bucket_node['CreationDate'] = myconverter(bucket['CreationDate'])
+    bucket_node['children'] = [center_node(radius['layer_4'], 'null')]
+    root_node['children'].append(bucket_node)
+
 
 vpcs = ec2.vpcs.all()
 for vpc in vpcs:

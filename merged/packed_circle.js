@@ -49,8 +49,8 @@ const res_list = document.querySelectorAll(".select");
 const dropList = document.querySelectorAll(".dropdown-list");
 const rightSide = document.querySelector(".side-right");
 
-const arrlist = ["vpc", "subnet", "i", "rds", "natgw", "s3", "itngw"];
-
+// const arrlist = ["vpc", "subnet", "i", "rds", "natgw", "s3", "itngw"];
+const arrlist = ["vpc", "subnet", "i", "rds", "nat", "s3", "igw"];
 //#########################################################
 //#################### init DEFINITION ####################
 //#########################################################
