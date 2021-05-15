@@ -24,16 +24,19 @@
       .size([diameter - MARGIN, diameter - MARGIN])
       .padding(8);
 
-  const dropDown = document.querySelector("select");
   const retButton = document.querySelector(".button--return");
   const viewButton = document.querySelector(".button--view");
 
 
   const res_list = document.querySelectorAll('.select');
+  const dropdown = document.querySelectorAll('.dropdown');
   const dropList = document.querySelectorAll('.dropdown-list');
   const rightSide = document.querySelector('.side-right');
 
   const arrlist = ['vpc','subnet','i','rds','natgw','s3','itngw'];
+  const rid = document.querySelector('.rid');
+  const rtag = document.querySelector('.rtag');
+  const rattr = document.querySelector('.rattr');
 //<<<================== init DEFINITION ==================>>>
 
   const init = function (root) {
@@ -67,8 +70,79 @@
             //pass
           } else if (focus === d) {
             zoom(d.parent);
+            while(rid.childElementCount > 0){
+              rid.removeChild(rid.lastChild);
+            }
+            while(rtag.childElementCount > 0){
+              rtag.removeChild(rtag.lastChild);
+            }
+            while(rattr.childElementCount > 0){
+              rattr.removeChild(rattr.lastChild);
+            }
+            for(var j in Object.values(d.parent.data)){
+              if(Object.keys(d.parent.data)[j] != 'children'
+                  && Object.keys(d.parent.data)[j] !== 'href'
+                  && Object.keys(d.parent.data)[j] !== 'size'
+                  && Object.values(d.parent.data)[j] !== 'null'
+                  && Object.values(d.parent.data)[j] !== ''
+                  && Object.values(d.parent.data)[j] !== 'root') {
+                var newdivc = document.createElement('div');
+                if(Object.keys(d.parent.data)[j] === 'id'){
+                  newdivc.className = 'r_id info';
+                  newdivc.textContent = 'id : ' + Object.values(d.parent.data)[j];
+                  rid.appendChild(newdivc);
+                }else if(Object.keys(d.parent.data)[j] === 'name'){
+                  newdivc.className = 'r_tag info';
+                  newdivc.textContent = 'name : ' + Object.values(d.parent.data)[j];
+                  rtag.appendChild(newdivc);
+                }else if(Object.keys(d.parent.data)[j] === 'type'){
+                  newdivc.className = 'r_type info';
+                  newdivc.textContent = "type : " + Object.values(d.parent.data)[j];
+                  rtag.appendChild(newdivc);
+                }else{
+                  newdivc.className = 'info';
+                  newdivc.textContent = Object.keys(d.parent.data)[j] + ": " + Object.values(d.parent.data)[j];
+                  rattr.appendChild(newdivc);
+                }
+              }
+            }
           } else {
             zoom(d);
+            while(rid.childElementCount > 0){
+              rid.removeChild(rid.lastChild);
+            }
+            while(rtag.childElementCount > 0){
+              rtag.removeChild(rtag.lastChild);
+            }
+            while(rattr.childElementCount > 0){
+              rattr.removeChild(rattr.lastChild);
+            }
+            for(var j in Object.values(d.data)){
+              if(Object.keys(d.data)[j] != 'children'
+                  && Object.keys(d.data)[j] !== 'href'
+                  && Object.keys(d.data)[j] !== 'size'
+                  && Object.values(d.data)[j] !== 'null'
+                  && Object.values(d.data)[j] !== '') {
+                var newdivc = document.createElement('div');
+                if(Object.keys(d.data)[j] === 'id'){
+                  newdivc.className = 'r_id info';
+                  newdivc.textContent = 'id : ' + Object.values(d.data)[j];
+                  rid.appendChild(newdivc);
+                }else if(Object.keys(d.data)[j] === 'name'){
+                  newdivc.className = 'r_tag info';
+                  newdivc.textContent = 'name : ' + Object.values(d.data)[j];
+                  rtag.appendChild(newdivc);
+                }else if(Object.keys(d.data)[j] === 'type'){
+                  newdivc.className = 'r_type info';
+                  newdivc.textContent = "type : " + Object.values(d.data)[j];
+                  rtag.appendChild(newdivc);
+                }else{
+                  newdivc.className = 'info';
+                  newdivc.textContent = Object.keys(d.data)[j] + ": " + Object.values(d.data)[j];
+                  rattr.appendChild(newdivc);
+                }
+              }
+            }
             event.stopPropagation();
           }
         });
@@ -123,13 +197,22 @@
       if(typeof d.data.id !== "undefined") {
         for(var i in arrlist){
           if(d.data.id.startsWith(arrlist[i])){
+            if(!dropdown[i].classList.contains('active')){
+              dropdown[i].classList.add('active');
+            }
             var newDIV = document.createElement('div');
             newDIV.className = "dropdown-list__item";
             newDIV.textContent = d.data.id;
             newDIV.addEventListener('click',function (e){
               //해당 리소스 클릭시 오른쪽 사이드바 Information 글씨빼고 전부삭제
-              while(rightSide.childElementCount > 1){
-                rightSide.lastChild.remove();
+              while(rid.childElementCount > 0){
+                rid.removeChild(rid.lastChild);
+              }
+              while(rtag.childElementCount > 0){
+                rtag.removeChild(rtag.lastChild);
+              }
+              while(rattr.childElementCount > 0){
+                rattr.removeChild(rattr.lastChild);
               }
               //해당 리소스 클릭시 정보 하나하나를 div태그로 만들어서 으론쪽 사이드바에 채워주기
 
@@ -138,18 +221,46 @@
               //*************************************************
               for(var j in Object.values(d.data)){
                 if(Object.keys(d.data)[j] != 'children'
-                    && Object.keys(d.data)[j] != 'href'
-                    && Object.keys(d.data)[j] != 'size') {
-                  var newdiv = document.createElement('div');
-                  newdiv.className = 'information';
-                  newdiv.textContent = Object.keys(d.data)[j] + ": " + Object.values(d.data)[j];
-                  rightSide.appendChild(newdiv);
+                    && Object.keys(d.data)[j] !== 'href'
+                    && Object.keys(d.data)[j] !== 'size'
+                    && Object.values(d.data)[j] !== 'null'
+                    && Object.values(d.data)[j] !== '') {
+                  var newdivc = document.createElement('div');
+                  if(Object.keys(d.data)[j] === 'id'){
+                    newdivc.className = 'r_id info';
+                    newdivc.textContent = 'id : ' + Object.values(d.data)[j];
+                    rid.appendChild(newdivc);
+                  }else if(Object.keys(d.data)[j] === 'name'){
+                    newdivc.className = 'r_tag info';
+                    newdivc.textContent = 'name : ' + Object.values(d.data)[j];
+                    rtag.appendChild(newdivc);
+                  }else if(Object.keys(d.data)[j] === 'type'){
+                    newdivc.className = 'r_type info';
+                    newdivc.textContent = "type : " + Object.values(d.data)[j];
+                    rtag.appendChild(newdivc);
+                  }else{
+                    newdivc.className = 'info';
+                    if(typeof Object.values(d.data)[j] === 'object'){
+                      newdivc.textContent = Object.keys(d.data)[j] + ": "
+                      for(var k in Object.values(d.data)[j]){
+                        console.log(Object.values(d.data)[j][k]);
+                        // var newdivcc = document.createElement('div');
+                        // newdivcc.className = 'info_child';
+                        // newdivcc.textContent = Object.values(d.data)[j][k] + ": " + Object.values(d.data)[j][k];
+                        // newdivc.appendChild(newdivcc);
+                      }
+                    }else {
+                      newdivc.textContent = Object.keys(d.data)[j] + ": " + Object.values(d.data)[j];
+                    }
+                    rattr.appendChild(newdivc);
+                  }
                 }
               }
               zoom(d);
               e.stopPropagation();
             })
             dropList[i].appendChild(newDIV);
+            dropList[i].classList.add('active');
             break;
           }
         }
@@ -157,29 +268,19 @@
     })
 
 
-    // 중복기능 지워야함 ********************************************
-    dropDown.addEventListener("change", function (event) {
-      const val = event.target.value;
-
-      if (val !== "init") {
-        zoomAble = false;
-        retButton.disabled = true;
-
-        nodeGroup
-            .selectAll("circle")
-            .style("opacity", (d) =>
-                d.data.name.startsWith(val) ? 1 : d !== root ? OPACITY : null
-            );
-
-        nodeGroup
-            .selectAll("image")
-            .style("opacity", (d) =>
-                d.data.name.startsWith(val) ? 1 : d !== root ? 0 : null
-            );
-      }
-    });
-
-    retButton.addEventListener("click", (event) => zoom(root));
+    retButton.addEventListener("click", (event) => {
+      zoom(root);
+          while(rid.childElementCount > 0){
+            rid.removeChild(rid.lastChild);
+          }
+          while(rtag.childElementCount > 0){
+            rtag.removeChild(rtag.lastChild);
+          }
+          while(rattr.childElementCount > 0){
+            rattr.removeChild(rattr.lastChild);
+          }
+    }
+    );
     viewButton.addEventListener("click", function (event) {
       zoomAble = true;
       retButton.disabled = false;
@@ -298,17 +399,17 @@
           .duration(SPAN / 3)
           .style("fill-opacity", 1);
 
-      dropDown.addEventListener("change", function (event) {
-        const val = event.target.value;
-
-        if (val !== "init") {
-          labelGroup
-              .selectAll("text")
-              .style("display", (d) =>
-                  d.data.name.startsWith(val) ? "inline" : "none"
-              );
-        }
-      });
+      // dropDown.addEventListener("change", function (event) {
+      //   const val = event.target.value;
+      //
+      //   if (val !== "init") {
+      //     labelGroup
+      //         .selectAll("text")
+      //         .style("display", (d) =>
+      //             d.data.name.startsWith(val) ? "inline" : "none"
+      //         );
+      //   }
+      // });
 
       viewButton.addEventListener("click", function (event) {
         labelGroup
