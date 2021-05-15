@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Poppins:wght@100;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -10,6 +12,7 @@ html {
 }
 header {
     position: fixed;
+    background: #fff;
     top: 0;
     left: 0;
     width: 100%;
@@ -22,6 +25,7 @@ header {
     border-bottom: 1px solid #000;
     opacity: .5;
 }
+
 header .logo {
     position: relative;
     color: #000;
@@ -73,8 +77,8 @@ header ul li a:hover {
     left: 50%;
     transform: translate(-50%,-50%);
 }
-.main-content {
-    position: absolute;
+.page1 .main-content {
+    position: relative;
     left: 250px;
     top: 150px;
 }
@@ -108,6 +112,24 @@ p {
     background: tomato;
     position: relative;
 }
+.page2 .main-content {
+    position: relative;
+    top: 150px;
+    text-align: center;
+}
+
+.page2 h1 {
+    font-family: 'Nanum Pen Script', cursive;
+    font-weight: 500;
+}
+.page2 .ex-image1 {
+    position: relative;
+    left: 250px;
+    top: 150px;
+    width: 750px;
+    height: 500px;
+    border: 1px solid black;
+}
 .page2 a {
     position: absolute;
     font-size: 45px;
@@ -137,16 +159,21 @@ p {
     height: 100%;
     position: fixed;
     top: 80px;
-    left: 0;
     background: #003147;
+    border: 1px solid #003147;
 }
 .side-right {
     width: 250px;
     height: 100%;
     position: fixed;
     top: 80px;
-    right: 0;
+    right: -250px;
     background: #003147;
+    transition: .5s;
+    border-left: 1px solid #003147;
+}
+.side-right.active {
+    right: 0;
 }
 .list {
     text-align: center;
@@ -167,6 +194,9 @@ p {
 .dropdown {
     width: 100%;
     position: relative;
+    display: none;
+}
+.dropdown.active {
     display: flex;
 }
 .dropdown:hover .dropdown-list {
@@ -186,12 +216,17 @@ p {
     font-size: 22px;
     cursor: pointer;
 }
-.dropdown-list {
+.dropdown-list.active {
+    font-family: 'Poiret One', cursive;
+    font-weight: 700;
+
     position: absolute;
     left: 250px;
     box-sizing: border-box;
+    overflow-y: auto;
     margin: 1px auto;
-    width: 90%;
+    width: 100%;
+    height: 350px;
     border-radius: 4px;
     background-color: #fff;
     position: absolute;
@@ -202,17 +237,44 @@ p {
     z-index: 100;
 }
 .dropdown-list__item {
+    display: flex;
     box-sizing: border-box;
+    width: 100%;
+    height: 50px;
     padding: 3px 10px;
     font-size: 18px;
-    text-align: left;
+    justify-content: left;
+    align-items: center;
     cursor: pointer;
+}
+/*.dropdown-list__item:not(:first-child) {*/
+/*    margin-top: 15px;*/
+/*}*/
+.dropdown-list__item:hover {
+    background: lightgreen;
 }
 .select {
     width: 100%;
 }
-.information {
+.info {
     background: #fff;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 500;
+    padding: 2px 0 2px 5px;
+}
+.title {
+    background: #fff;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1em;
+    border-bottom: 1px solid gray;
+}
+.content-btn {
+    display: flex;
+    justify-content: center;
+}
+.content-btn i {
+    font-size: 50px;
 }
 @media screen and (max-width: 1500px) {
     .side {
