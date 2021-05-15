@@ -246,7 +246,7 @@ for vpc in vpcs:
             inst_idx += 1
         inst_idx = 0
 
-        graph['links'].append({'source': vpc_node['id'], 'target': subnet_node['id']})
+        # graph['links'].append({'source': vpc_node['id'], 'target': subnet_node['id']})
 
         vpc_node['children'].append(subnet_node)
         subnet_idx += 1
