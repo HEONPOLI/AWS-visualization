@@ -259,7 +259,7 @@ vpc_idx = 0
 
 graph['root'] = root_node
 
-with open("../json/scratchNote.json", "w") as json_file:
+with open("C:/Users/ssp04/Desktop/DICTPROJ/AWS-visualization/merged/json/packed_circle.json", "w") as json_file:
     # json.dump(root_node, json_file, default=myconverter, indent=4)
     json.dump(graph, json_file, default=myconverter, indent=4)
     json_file.close()
