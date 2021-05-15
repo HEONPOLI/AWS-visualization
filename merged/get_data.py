@@ -119,7 +119,6 @@ for vpc in vpcs:
             vpc_node['children'].append(elb_node)
             break
 
-    vpc_node['Igws'] = []
     igws = vpc.internet_gateways.all()
     for igw in igws:
         igw_node = defaultdict()
@@ -128,9 +127,8 @@ for vpc in vpcs:
         igw_node['name'] = 'igw-' + str(vpc_idx) + str(igw_idx)
         igw_node['size'] = radius['layer_2']
         igw_node['href'] = 'icons/aws_igw.png'
-        igw_node['children'] = []
-        igw_node['children'].append(center_node(radius['layer_3'], 'null'))
-        # vpc_node['children'].append(igw_node)
+        igw_node['children'] = [center_node(radius['layer_3'], 'null')]
+        vpc_node['children'].append(igw_node)
         igw_idx += 1
     igw_idx = 0
 
@@ -195,6 +193,7 @@ for vpc in vpcs:
                         graph['links'].append({'source': entry['NatGatewayId'], 'target': subnet_node['id']})
                     elif 'GatewayId' in entry and 'igw-' in entry['GatewayId']:
                         subnet_node['type'] = 'public'
+                        graph['links'].append({'source': entry['GatewayId'], 'target': subnet_node['id']})
                     else:
                         subnet_node['type'] = 'private'
         else:

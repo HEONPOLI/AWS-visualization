@@ -34,6 +34,7 @@ const color = {
   route53: "hsl(259, 55%, 48%)",
   cloudtrail: "hsl(337, 68%, 50%)",
   nat: "hsl(259, 55%, 48%)",
+  igw: "hsl(259, 55%, 48%)",
 };
 
 const pack = d3
