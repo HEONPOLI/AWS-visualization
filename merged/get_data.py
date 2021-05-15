@@ -167,8 +167,9 @@ for vpc in vpcs:
             nat_node['state'] = nat['State']
             nat_node['publicIp'] = nat['NatGatewayAddresses'][0]['PublicIp']
             nat_node['privateIp'] = nat['NatGatewayAddresses'][0]['PrivateIp']
-            nat_node['href'] = 'icons/aws_nat'
+            nat_node['href'] = 'icons/aws_nat.png'
             nat_node['CreateTime'] = nat['CreateTime']
+            nat_node['children'] = [center_node(radius['layer_4'], 'null')]
             subnet_node['children'].append(nat_node)
             nat_idx += 1
         nat_idx = 0
