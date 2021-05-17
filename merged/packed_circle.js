@@ -52,7 +52,7 @@ const dropList = document.querySelectorAll(".dropdown-list");
 const rightSide = document.querySelector(".side-right");
 
 // const arrlist = ["vpc", "subnet", "i", "rds", "natgw", "s3", "itngw"];
-const arrlist = ["vpc", "subnet", "i", "rds", "nat", "s3", "igw"];
+const arrlist = ["vpc", "subnet", "i-", "rds", "nat", "s3", "igw"];
 const rid = document.querySelector('.rid');
 const rtag = document.querySelector('.rtag');
 const rattr = document.querySelector('.rattr');
@@ -196,26 +196,30 @@ const init = function (graph) {
   res_list.forEach(function (d) {
     d.addEventListener("click", function (e) {
       const val1 = e.target.id;
-      if (val1 !== "init") {
         zoomAble = false;
         retButton.disabled = true;
         linkButton.disabled = true;
 
         nodeGroup
             .selectAll("circle")
-            .style("opacity", (d) =>
-                d.data.name.startsWith(val1) ? 1 : d !== root ? OPACITY : null
+            .style("opacity", (d) => {
+                  if(d.data.name !== 'root' && typeof d.data.id !== 'undefined') {
+                    return d.data.id.startsWith(val1) ? 1 : d !== root ? OPACITY : null
+                  }
+                }
             );
 
         nodeGroup
             .selectAll("image")
-            .style("opacity", (d) =>
-                d.data.name.startsWith(val1) ? 1 : d !== root ? 0 : null
+            .style("opacity", (d) => {
+                  if (d.data.name !== 'root' && typeof d.data.id !== 'undefined') {
+                    return d.data.id.startsWith(val1) ? 1 : d !== root ? 0 : null
+                  }
+                }
             );
 
         linkGroup.selectAll("path").style("display", "none");
         showLink = false;
-      }
     });
   });
 

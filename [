@@ -1,0 +1,173 @@
+[33mcommit 67680e23b3a823ae7fccfa0f7fed6018ceebd7a8[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: HEONPOLI <ssp04046@naver.com>
+Date:   Sat May 15 22:36:35 2021 +0900
+
+    modified jsonjson
+
+[33mcommit 99a40927c2f27cb0962cf22d6ca27662700d743c[m
+Merge: 99baa5e 2a1251f
+Author: _PeterParker <jkshin0903@gmail.com>
+Date:   Sat May 15 20:48:29 2021 +0900
+
+    Merge branch 'main' of https://github.com/team-DICT/AWS-visualization into main
+
+[33mcommit 99baa5ebd1579b2d0efa4c9424ea2642ea7fc5e9[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sat May 15 20:46:31 2021 +0900
+
+    ngw modification
+
+[33mcommit 2a1251fe66f2c15288e4c05ecb3af5700e83a1ae[m
+Author: solsol96 <67745025+solsol96@users.noreply.github.com>
+Date:   Sat May 15 20:30:23 2021 +0900
+
+    Add files via upload
+
+[33mcommit 05a2c0ef31d2da895217237a85c4f1a1f0afd471[m
+Author: solsol96 <67745025+solsol96@users.noreply.github.com>
+Date:   Sat May 15 20:29:39 2021 +0900
+
+    Add files via upload
+
+[33mcommit 68fbe2f902716e2f843dd7912f6aff82fe04260a[m
+Author: solsol96 <67745025+solsol96@users.noreply.github.com>
+Date:   Sat May 15 20:29:17 2021 +0900
+
+    Add files via upload
+
+[33mcommit 04023c78d27526bbf981d88e06cf8aed4474dbe4[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sat May 15 19:45:02 2021 +0900
+
+    delete vpc subnet links
+
+[33mcommit f111b8d323a006b39c5f9405c0a77d773dfa529b[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sat May 15 19:42:38 2021 +0900
+
+    add igw and links
+
+[33mcommit eb98d42ad49e71df58d37cfd23d9bee0041ed97c[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sat May 15 19:27:49 2021 +0900
+
+    add s3
+
+[33mcommit 6ecae2d09277ab12d2d39f787ad1373ed8d1ba82[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sat May 15 00:40:35 2021 +0900
+
+    update python
+
+[33mcommit 6b2ebc5befeb7311f460d02b3a6e5dd7933b7b09[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sat May 15 00:18:45 2021 +0900
+
+    update python
+
+[33mcommit b8af8ea6e207c45f08605a9d5f7c5aa6b7f80b28[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sat May 15 00:11:51 2021 +0900
+
+    update python
+
+[33mcommit 1361f2c9b21d6825030f46bcdad5a37ec0d80b38[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sat May 15 00:04:44 2021 +0900
+
+    update python
+
+[33mcommit c591b584c529dd0efad9dcaa7fff35315ccbeebe[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Fri May 14 23:56:59 2021 +0900
+
+    update python
+
+[33mcommit 0e3c78a9581112e7237742f67b253b5c5e08c47a[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Fri May 14 22:24:17 2021 +0900
+
+    merged python
+
+[33mcommit be8281d304707cb290e870d8e6788a03fc94c7ab[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Fri May 14 22:22:23 2021 +0900
+
+    merged
+
+[33mcommit 2d3078b056e9e361762add5f8c9a4f2f769d18a2[m
+Author: solsol96 <67745025+solsol96@users.noreply.github.com>
+Date:   Thu May 13 21:22:10 2021 +0900
+
+    Add files via upload
+
+[33mcommit 81b0d884902a24f658297bd91029b7078a2f1144[m
+Author: solsol96 <67745025+solsol96@users.noreply.github.com>
+Date:   Thu May 13 13:27:04 2021 +0900
+
+    Add files via upload
+
+[33mcommit 5f95c95349788bf372063d850374ea9b5fda4dd6[m
+Author: solsol96 <67745025+solsol96@users.noreply.github.com>
+Date:   Thu May 13 13:23:59 2021 +0900
+
+    Add files via upload
+
+[33mcommit 141a185f0a69890c86ffa1ed782a3c2c5839e527[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Thu May 13 00:53:39 2021 +0900
+
+    add nat_node to subnet's children
+
+[33mcommit 51eeb720d58c00531a061f6b0b5a97b93f881e22[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sun May 9 01:43:51 2021 +0900
+
+    sample data upload
+
+[33mcommit 2fa1c2c0a03b4ebb7d623332f02336e56c90157c[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sun May 9 00:37:45 2021 +0900
+
+    add link
+
+[33mcommit 9e050128967c183b36f7b35ccd1c873915abd598[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Tue May 4 12:25:13 2021 +0900
+
+    updated
+
+[33mcommit 661975a8491839ed628db21f8d6d9a20b5c48008[m
+Author: ilovePUBG <jkshin0903@gmail.com>
+Date:   Sun May 2 16:47:36 2021 +0900
+
+    newly updated
+
+[33mcommit 2107e3c1fd722350c0776b3be0c6dec3a64f2fb1[m
+Author: _PeterParker <jkshin0903@gmail.com>
+Date:   Fri Apr 30 23:30:47 2021 +0900
+
+    updated
+
+[33mcommit a83a54b501204399325534e76e49279b31d7134f[m
+Author: _PeterParker <jkshin0903@gmail.com>
+Date:   Fri Apr 30 17:41:25 2021 +0900
+
+    Create get_data.py
+
+[33mcommit 9438acf472238fcf4f15c5f61a08231481d94270[m
+Author: _PeterParker <jkshin0903@gmail.com>
+Date:   Sat Apr 24 21:38:57 2021 +0900
+
+    packed_circle
+
+[33mcommit dda8028f9013a57aa41e6e08382318954739e597[m
+Author: solsol96 <67745025+solsol96@users.noreply.github.com>
+Date:   Fri Apr 9 15:39:27 2021 +0900
+
+    Add files via upload
+
+[33mcommit 56dfffc5004bdafbfafecd824b0d0d0d94a32739[m
+Author: ilovePUBG <50525846+ilovePUBG@users.noreply.github.com>
+Date:   Fri Apr 9 15:38:33 2021 +0900
+    Initial commit
