@@ -1,0 +1,52 @@
+body {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+svg {
+  display: block;
+  margin: auto;
+}
+
+select {
+  margin-bottom: 10px;
+}
+
+.node,
+.node--leaf {
+  cursor: pointer;
+  fill: white;
+  /* stroke: #c4db15;
+  stroke-width: 1px; */
+}
+
+.node:hover {
+  stroke: #c4db15;
+  stroke-width: 3px;
+}
+
+.label,
+.node--root
+/* .node--leaf */ {
+  pointer-events: none;
+}
+.content {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+}
+.a {
+  width: 200px;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  background: aquamarine;
+}
+
+.a li {
+  text-decoration: none;
+  list-style: none;
+}

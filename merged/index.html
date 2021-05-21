@@ -1,105 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
 
-    <link rel="stylesheet" href="./packed_circle.css" />
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-
-    <script
-      src="https://kit.fontawesome.com/b98b5bbdbb.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-  </head>
-  <body>
-    <header>
-      <span class="logo">DICT</span>
-      <ul>
-        <li class="navbar-item">
-          <a class="navbar-link active" href="./home.html">HOME</a>
-        </li>
-        <li class="navbar-item"><a class="navbar-link" href="#">DISPLAY</a></li>
-        <li class="navbar-item">
-          <a class="navbar-link" href="./iam.html">IAM</a>
-        </li>
-      </ul>
-    </header>
-    <div class="side-left">
-      <div class="list">Resource List</div>
-      <div class="dropdown vpc">
-        <div class="dropdown-select">
-          <span class="select" id="vpc">VPC</span>
-          <i class="fa fa-caret-down icon"></i>
-        </div>
-        <div class="dropdown-list"></div>
-      </div>
-      <div class="dropdown subnet">
-        <div class="dropdown-select">
-          <span class="select" id="subnet">Subnet</span>
-          <i class="fa fa-caret-down icon"></i>
-        </div>
-        <div class="dropdown-list"></div>
-      </div>
-      <div class="dropdown inst">
-        <div class="dropdown-select">
-          <span class="select" id="inst">EC2</span>
-          <i class="fa fa-caret-down icon"></i>
-        </div>
-        <div class="dropdown-list"></div>
-      </div>
-      <div class="dropdown rds">
-        <div class="dropdown-select">
-          <span class="select" id="rds">RDS</span>
-          <i class="fa fa-caret-down icon"></i>
-        </div>
-        <div class="dropdown-list"></div>
-      </div>
-      <div class="dropdown natgw">
-        <div class="dropdown-select">
-          <span class="select" id="natgw">NAT Gateway</span>
-          <i class="fa fa-caret-down icon"></i>
-        </div>
-        <div class="dropdown-list"></div>
-      </div>
-      <div class="dropdown s3">
-        <div class="dropdown-select">
-          <span class="select" id="s3">S3</span>
-          <i class="fa fa-caret-down icon"></i>
-        </div>
-        <div class="dropdown-list"></div>
-      </div>
-      <div class="dropdown itngw">
-        <div class="dropdown-select">
-          <span class="select" id="itngw">Internet Gateway</span>
-          <i class="fa fa-caret-down icon"></i>
-        </div>
-        <div class="dropdown-list"></div>
-      </div>
-    </div>
-    <div class="side-right">
-      <div class="list">Information</div>
-    </div>
-
-    <div class="content">
+  <link rel="stylesheet" href="./packed_circle.css">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <!-- CSS only -->
+  <style>
+    svg {
+      border: 1px solid red;
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/b98b5bbdbb.js" crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<header style="opacity: 1">
+  <span class="logo">DICT</span>
+  <ul>
+    <li class="navbar-item"><a class="navbar-link active" href="./home.html">HOME</a></li>
+    <li class="navbar-item"><a class="navbar-link" href="#">DISPLAY</a></li>
+    <li class="navbar-item"><a class="navbar-link" href="./iam.html">IAM</a></li>
+  </ul>
+</header>
+<div class="side-left">
+  <li class="content-btn">
+    <ul>
       <button type="button" class="button--return">
         <i class="fas fa-undo-alt fa-3x"></i>
       </button>
+    </ul>
+    <ul>
       <button type="button" class="button--view">
         <i class="fas fa-map-marked-alt fa-3x"></i>
       </button>
+    </ul>
+    <ul>
       <button type="button" class="button--link">
         <i class="fas fa-project-diagram fa-3x"></i>
       </button>
-      <svg width="980" height="980"></svg>
+    </ul>
+    <ul>
+      <button type="button" class="button--sidebar">
+        <i class="fas fa-eye"></i>
+      </button>
+    </ul>
+  </li>
+  <div class="list">Resource List</div>
+  <div class="dropdown vpc">
+    <div class="dropdown-select">
+      <span class="select" id="vpc-">VPC</span>
+      <i class="fa fa-caret-down icon"></i>
     </div>
-    <!--    <script src="size.js"></script>-->
+    <div class="dropdown-list">
+    </div>
+  </div>
+  <div class="dropdown subnet">
+    <div class="dropdown-select">
+      <span class="select" id="subnet-">Subnet</span>
+      <i class="fa fa-caret-down icon"></i>
+    </div>
+    <div class="dropdown-list">
+    </div>
+  </div>
+  <div class="dropdown inst">
+    <div class="dropdown-select">
+      <span class="select" id="i-">EC2</span>
+      <i class="fa fa-caret-down icon"></i>
+    </div>
+    <div class="dropdown-list">
+    </div>
+  </div>
+  <div class="dropdown rds">
+    <div class="dropdown-select">
+      <span class="select" id="db-">RDS</span>
+      <i class="fa fa-caret-down icon"></i>
+    </div>
+    <div class="dropdown-list">
+    </div>
+  </div>
+  <div class="dropdown natgw">
+    <div class="dropdown-select">
+      <span class="select" id="nat-">NAT Gateway</span>
+      <i class="fa fa-caret-down icon"></i>
+    </div>
+    <div class="dropdown-list">
+    </div>
+  </div>
+  <div class="dropdown s3">
+    <div class="dropdown-select">
+      <span class="select" id="s3-">S3</span>
+      <i class="fa fa-caret-down icon"></i>
+    </div>
+    <div class="dropdown-list">
+    </div>
+  </div>
+  <div class="dropdown itngw">
+    <div class="dropdown-select">
+      <span class="select" id="igw-">Internet Gateway</span>
+      <i class="fa fa-caret-down icon"></i>
+    </div>
+    <div class="dropdown-list">
+    </div>
+  </div>
+</div>
+<div class="side-right">
+  <div class="list">Information</div>
+  <div class="rid title">RESOURCE ID</div>
+  <div class="rtag title">TAG</div>
+  <div class="rattr title">ATTRIBUTES</div>
 
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="packed_circle.js"></script>
-    <!-- JavaScript Bundle with Popper -->
-    <!-- <script src="scratch.js"></script> -->
-  </body>
+</div>
+
+
+<div class="content">
+  <svg width="960" height="960"></svg>
+</div>
+<!--    <script src="size.js"></script>-->
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="btn.js"></script>
+<script src="packed_circle.js"></script>
+<!-- JavaScript Bundle with Popper -->
+<!-- <script src="scratch.js"></script> -->
+</body>
 </html>
+
+
+
