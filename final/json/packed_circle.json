@@ -166,10 +166,7 @@
                                 "href": "icons/aws_ec2.png",
                                 "type": "t2.micro",
                                 "launch_time": "2021-05-14 08:26:48+00:00",
-                                "state": {
-                                    "Code": 16,
-                                    "Name": "running"
-                                },
+                                "state": "running",
                                 "core_count": 1,
                                 "threads_per_core": 1,
                                 "public_ip_address": null,
@@ -193,16 +190,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "10.250.0.0/16",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "10.250.0.0/16",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "NatGatewayId": "nat-091beeed714ea3c56",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "nat_gateway_id": "nat-091beeed714ea3c56"
                             }
                         ],
                         "type": "private",
@@ -246,10 +241,7 @@
                                 "href": "icons/aws_ec2.png",
                                 "type": "t2.micro",
                                 "launch_time": "2021-05-12 14:30:12+00:00",
-                                "state": {
-                                    "Code": 16,
-                                    "Name": "running"
-                                },
+                                "state": "running",
                                 "core_count": 1,
                                 "threads_per_core": 1,
                                 "public_ip_address": "3.37.6.120",
@@ -273,16 +265,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "10.250.0.0/16",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "10.250.0.0/16",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "GatewayId": "igw-0630f55c99a63a667",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "gateway_id": "igw-0630f55c99a63a667"
                             }
                         ],
                         "type": "public",
@@ -322,16 +312,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "10.250.0.0/16",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "10.250.0.0/16",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "GatewayId": "igw-0630f55c99a63a667",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "gateway_id": "igw-0630f55c99a63a667"
                             }
                         ],
                         "type": "public",
@@ -358,10 +346,7 @@
                                 "href": "icons/aws_ec2.png",
                                 "type": "t2.micro",
                                 "launch_time": "2021-05-12 15:03:06+00:00",
-                                "state": {
-                                    "Code": 16,
-                                    "Name": "running"
-                                },
+                                "state": "running",
                                 "core_count": 1,
                                 "threads_per_core": 1,
                                 "public_ip_address": null,
@@ -385,16 +370,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "10.250.0.0/16",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "10.250.0.0/16",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "NatGatewayId": "nat-09a60ffecf198afa0",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "nat_gateway_id": "nat-09a60ffecf198afa0"
                             }
                         ],
                         "type": "private",
@@ -451,10 +434,7 @@
                                 "href": "icons/aws_ec2.png",
                                 "type": "t2.micro",
                                 "launch_time": "2021-04-05 07:39:41+00:00",
-                                "state": {
-                                    "Code": 80,
-                                    "Name": "stopped"
-                                },
+                                "state": "stopped",
                                 "core_count": 1,
                                 "threads_per_core": 1,
                                 "public_ip_address": null,
@@ -520,20 +500,6 @@
                         "name": "elb-dict-LB",
                         "href": "icons/aws_elb.png",
                         "dns_name": "dict-LB-1719271536.ap-northeast-2.elb.amazonaws.com",
-                        "policies": {
-                            "AppCookieStickinessPolicies": [],
-                            "LBCookieStickinessPolicies": [],
-                            "OtherPolicies": []
-                        },
-                        "azs": [
-                            "ap-northeast-2c",
-                            "ap-northeast-2a"
-                        ],
-                        "subnet_ids": [
-                            "subnet-02604c9cc77b8e035",
-                            "subnet-0adc228183cf21a0f"
-                        ],
-                        "vpc_id": "vpc-0e977ed5956ddba32",
                         "children": [
                             {
                                 "id": "null",
@@ -574,16 +540,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "172.16.0.0/24",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "172.16.0.0/24",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "GatewayId": "igw-0bd608b742e675096",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "gateway_id": "igw-0bd608b742e675096"
                             }
                         ],
                         "type": "public",
@@ -606,18 +570,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "172.16.0.0/24",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "172.16.0.0/24",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "InstanceId": "i-076366dc565bf2111",
-                                "InstanceOwnerId": "888445523521",
-                                "NetworkInterfaceId": "eni-0dc02057dd1f5acaf",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "instance_id": "i-076366dc565bf2111"
                             }
                         ],
                         "type": "private",
@@ -644,10 +604,7 @@
                                 "href": "icons/aws_ec2.png",
                                 "type": "t2.micro",
                                 "launch_time": "2021-05-07 16:55:13+00:00",
-                                "state": {
-                                    "Code": 16,
-                                    "Name": "running"
-                                },
+                                "state": "running",
                                 "core_count": 1,
                                 "threads_per_core": 1,
                                 "public_ip_address": null,
@@ -671,18 +628,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "172.16.0.0/24",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "172.16.0.0/24",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "InstanceId": "i-076366dc565bf2111",
-                                "InstanceOwnerId": "888445523521",
-                                "NetworkInterfaceId": "eni-0dc02057dd1f5acaf",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "instance_id": "i-076366dc565bf2111"
                             }
                         ],
                         "type": "private",
@@ -709,10 +662,7 @@
                                 "href": "icons/aws_ec2.png",
                                 "type": "t2.micro",
                                 "launch_time": "2021-05-07 15:34:44+00:00",
-                                "state": {
-                                    "Code": 16,
-                                    "Name": "running"
-                                },
+                                "state": "running",
                                 "core_count": 1,
                                 "threads_per_core": 1,
                                 "public_ip_address": "15.165.190.206",
@@ -736,16 +686,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "172.16.0.0/24",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "172.16.0.0/24",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "GatewayId": "igw-0bd608b742e675096",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "gateway_id": "igw-0bd608b742e675096"
                             }
                         ],
                         "type": "public",
@@ -772,10 +720,7 @@
                                 "href": "icons/aws_ec2.png",
                                 "type": "t2.micro",
                                 "launch_time": "2021-05-07 16:58:14+00:00",
-                                "state": {
-                                    "Code": 16,
-                                    "Name": "running"
-                                },
+                                "state": "running",
                                 "core_count": 1,
                                 "threads_per_core": 1,
                                 "public_ip_address": null,
@@ -799,18 +744,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "172.16.0.0/24",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "172.16.0.0/24",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "InstanceId": "i-076366dc565bf2111",
-                                "InstanceOwnerId": "888445523521",
-                                "NetworkInterfaceId": "eni-0dc02057dd1f5acaf",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "instance_id": "i-076366dc565bf2111"
                             }
                         ],
                         "type": "private",
@@ -833,18 +774,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "172.16.0.0/24",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "172.16.0.0/24",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "InstanceId": "i-076366dc565bf2111",
-                                "InstanceOwnerId": "888445523521",
-                                "NetworkInterfaceId": "eni-0dc02057dd1f5acaf",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "instance_id": "i-076366dc565bf2111"
                             }
                         ],
                         "type": "private",
@@ -920,10 +857,7 @@
                                 "href": "icons/aws_ec2.png",
                                 "type": "t2.micro",
                                 "launch_time": "2021-03-16 12:16:40+00:00",
-                                "state": {
-                                    "Code": 80,
-                                    "Name": "stopped"
-                                },
+                                "state": "stopped",
                                 "core_count": 1,
                                 "threads_per_core": 1,
                                 "public_ip_address": null,
@@ -1034,16 +968,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "10.0.0.0/16",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "10.0.0.0/16",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "GatewayId": "igw-0ca7d7615513ba71b",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "gateway_id": "igw-0ca7d7615513ba71b"
                             }
                         ],
                         "type": "public",
@@ -1066,20 +998,18 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "10.0.0.0/16",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "10.0.0.0/16",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "NetworkInterfaceId": "eni-0ed861976d61b3dac",
-                                "Origin": "CreateRoute",
-                                "State": "blackhole"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "blackhole",
+                                "network_interface_id": "eni-0ed861976d61b3dac"
                             }
                         ],
-                        "type": "private",
-                        "href": "icons/aws_private_subnet.png"
+                        "type": "blackhole",
+                        "href": "icons/aws_blackhole_subnet.png"
                     },
                     {
                         "id": "subnet-06a1abec51ec97b09",
@@ -1098,20 +1028,18 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "10.0.0.0/16",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "10.0.0.0/16",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "NetworkInterfaceId": "eni-0ed861976d61b3dac",
-                                "Origin": "CreateRoute",
-                                "State": "blackhole"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "blackhole",
+                                "network_interface_id": "eni-0ed861976d61b3dac"
                             }
                         ],
-                        "type": "private",
-                        "href": "icons/aws_private_subnet.png"
+                        "type": "blackhole",
+                        "href": "icons/aws_blackhole_subnet.png"
                     },
                     {
                         "id": "subnet-080bbfa0b95488100",
@@ -1130,16 +1058,14 @@
                         ],
                         "route_table": [
                             {
-                                "DestinationCidrBlock": "10.0.0.0/16",
-                                "GatewayId": "local",
-                                "Origin": "CreateRouteTable",
-                                "State": "active"
+                                "destination_cidr_block": "10.0.0.0/16",
+                                "state": "active",
+                                "gateway_id": "local"
                             },
                             {
-                                "DestinationCidrBlock": "0.0.0.0/0",
-                                "GatewayId": "igw-0ca7d7615513ba71b",
-                                "Origin": "CreateRoute",
-                                "State": "active"
+                                "destination_cidr_block": "0.0.0.0/0",
+                                "state": "active",
+                                "gateway_id": "igw-0ca7d7615513ba71b"
                             }
                         ],
                         "type": "public",

@@ -221,7 +221,8 @@ p {
   font-weight: 700;
 
   position: absolute;
-  left: 250px;
+  /* left: 250px; */
+  left: 330px;
   box-sizing: border-box;
   overflow-y: auto;
   margin: 1px auto;

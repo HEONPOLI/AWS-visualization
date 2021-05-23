@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, send_from_directory
+from flask import Flask, render_template, json
 from get_data import manipulate
 import time
 

@@ -46,11 +46,8 @@ def manipulate():
         'size': radius['null']
     }
 
-    # images = ec2.images.all()
-    # instances = ec2.instances.all()
     internet_gateways = ec2.internet_gateways
     route_tables = ec2.route_tables
-    # security_groups = ec2.security_groups.all()
     subnets = ec2.subnets
     volumes = ec2.volumes
     vpcs = ec2.vpcs.all()
@@ -69,7 +66,6 @@ def manipulate():
             rds_node['engine'] = rds['Engine']
             rds_node['endpoint'] = rds['Endpoint']  # includes DNS address of thd DB instance
             rds_node['create_time'] = rds['InstanceCreateTime']
-            # rds_node['sg'] = rds['DBSecurityGroups']
             rds_node['az'] = rds['AvailabilityZone']
             rds_node['vpc_id'] = rds['DBSubnetGroup']['VpcId']
             rds_node['subnet_id'] = sub['SubnetIdentifier']
@@ -108,11 +104,10 @@ def manipulate():
             elb_node['name'] = 'elb-' + elb['LoadBalancerName']
             elb_node['href'] = 'icons/aws_elb.png'
             elb_node['dns_name'] = elb['DNSName']
-            elb_node['policies'] = elb['Policies']
-            elb_node['azs'] = elb['AvailabilityZones']
-            elb_node['subnet_ids'] = elb['Subnets']
-            elb_node['vpc_id'] = elb['VPCId']
-            # elb_node['sg'] = elb['SecurityGroups']
+            # elb_node['policies'] = elb['Policies']
+            # elb_node['azs'] = elb['AvailabilityZones']
+            # elb_node['subnet_ids'] = elb['Subnets']
+            # elb_node['vpc_id'] = elb['VPCId']
             elb_node['children'] = [null_node]
             vpc_node['children'].append(elb_node)
 
@@ -192,23 +187,37 @@ def manipulate():
                 ]
             )
             resp_route_table = list(resp_route_table)
+            subnet_node['route_table'] = []
             if len(resp_route_table):
-                subnet_node['route_table'] = resp_route_table[0].routes_attribute
-                for route in subnet_node['route_table']:
-                    if route['DestinationCidrBlock'] == '0.0.0.0/0':
+                routes = resp_route_table[0].routes_attribute
+
+                for route in routes:
+                    entry = defaultdict()
+                    entry['destination_cidr_block'] = route['DestinationCidrBlock']
+                    entry['state'] = route['State']
+
+                    if entry['destination_cidr_block'] == '0.0.0.0/0':
                         if 'NatGatewayId' in route:
+                            entry['nat_gateway_id'] = route['NatGatewayId']
                             subnet_node['type'] = 'private'
                             graph['links'].append({'source': route['NatGatewayId'], 'target': subnet_node['id']})
                         elif 'GatewayId' in route and 'igw-' in route['GatewayId']:
+                            entry['gateway_id'] = route['GatewayId']
                             subnet_node['type'] = 'public'
                             graph['links'].append({'source': route['GatewayId'], 'target': subnet_node['id']})
                         elif 'InstanceId' in route:
+                            entry['instance_id'] = route['InstanceId']
                             subnet_node['type'] = 'private'
                             graph['links'].append({'source': route['InstanceId'], 'target': subnet_node['id']})
-                        else:
-                            subnet_node['type'] = 'private'
+                        elif 'NetworkInterfaceId' in route:
+                            entry['network_interface_id'] = route['NetworkInterfaceId']
+                            subnet_node['type'] = 'blackhole'
+                    else:
+                        entry['gateway_id'] = route['GatewayId'] #local
+
+                    subnet_node['route_table'].append(entry)
+
             else:
-                subnet_node['route_table'] = []
                 subnet_node['type'] = 'empty'
             subnet_node['href'] = 'icons/aws_' + subnet_node['type'] + '_subnet.png'
 
@@ -227,7 +236,7 @@ def manipulate():
                 inst_node['href'] = 'icons/aws_ec2.png'
                 inst_node['type'] = inst.instance_type
                 inst_node['launch_time'] = inst.launch_time
-                inst_node['state'] = inst.state
+                inst_node['state'] = inst.state['Name']
                 inst_node['core_count'] = inst.cpu_options['CoreCount']
                 inst_node['threads_per_core'] = inst.cpu_options['ThreadsPerCore']
                 inst_node['public_ip_address'] = inst.public_ip_address
@@ -251,11 +260,6 @@ def manipulate():
                 inst_node['volume_size'] = resp_vol[0].size
                 inst_node['volume_type'] = resp_vol[0].volume_type
                 inst_node['volume_throughput'] = resp_vol[0].throughput
-                # inst_node['security_groups'] = inst.security_groups
-                # for g in inst_node['security_groups']:
-                #     response = ec2.SecurityGroup(g['GroupId'])
-                #     g['Inbound'] = response.ip_permissions
-                #     g['Outbound'] = response.ip_permissions_egress
 
                 inst_node['children'] = [null_node]
                 subnet_node['children'].append(inst_node)
