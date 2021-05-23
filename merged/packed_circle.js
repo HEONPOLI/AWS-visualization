@@ -52,7 +52,7 @@ const dropList = document.querySelectorAll(".dropdown-list");
 const rightSide = document.querySelector(".side-right");
 
 // const arrlist = ["vpc", "subnet", "i", "rds", "natgw", "s3", "itngw"];
-const arrlist = ["vpc", "subnet", "i-", "rds", "nat", "s3", "igw"];
+const arrlist = ["vpc", "subnet", "i-", "rds", "nat", "s3", "igw","elb"];
 const rid = document.querySelector('.rid');
 const rtag = document.querySelector('.rtag');
 const rattr = document.querySelector('.rattr');
@@ -269,12 +269,23 @@ const init = function (graph) {
                   newdivc.className = 'r_type info';
                   newdivc.textContent = "type : " + Object.values(d.data)[j];
                   rtag.appendChild(newdivc);
-                }else{
+                }else if(Object.keys(d.data)[j] === 'RouteTable'){
+                  newdivc = document.createElement('div');
+                  newdivc.className = 'r_rt info';
+                  newdivc.textContent = 'Route Table';
+                  for(var k in Object.values(d.data)[j]){
+                    var c1 = ocument.createElement('div');
+                    var c2 = ocument.createElement('div');
+                    var c3 = ocument.createElement('div');
+                    c1.textContent = 'Des Cidr :' + Object.values(d.data)[j][k].DestinationCidrBlock;
+                    c2.textContent = 'GateWay ID :' + Object.values(d.data)[j][k].GatewayId;
+                    c2.textContent = 'State :' + Object.values(d.data)[j][k].State;
+                  }
+                }else {
                   newdivc.className = 'info';
                   if(typeof Object.values(d.data)[j] === 'object'){
                     newdivc.textContent = Object.keys(d.data)[j] + ": "
                     for(var k in Object.values(d.data)[j]){
-                      console.log(Object.values(d.data)[j][k]);
                       // var newdivcc = document.createElement('div');
                       // newdivcc.className = 'info_child';
                       // newdivcc.textContent = Object.values(d.data)[j][k] + ": " + Object.values(d.data)[j][k];
