@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
   {
     "UserName": "admin",
@@ -28,4 +29,59 @@
       "GroupId": "AGPA45W322ZAZRKF4OKLX"
     }
   }
+=======
+[
+	{
+		"UserName": "aaa",
+		"Userid": "AIDA45W322ZA4QIW5O7CI",
+		"Arn": "arn:aws:iam::888445523521:user/aaa",
+		"CreateDate": "2021-05-22 14:29:36+00:00",
+		"UserPolicy": "AdministratorAccess",
+		"GroupInfo": {
+			"GroupName": "DICT_GROUP",
+			"GroupId": "AGPA45W322ZAZRKF4OKLX",
+			"GroupPolicy": "AdministratorAccess"
+		},
+		"AccessKeyInfo": "AccessKey Expiration",
+		"Last Login": null
+	},
+	{
+		"UserName": "admin",
+		"Userid": "AIDA45W322ZAUNTCO7OA4",
+		"Arn": "arn:aws:iam::888445523521:user/admin",
+		"CreateDate": "2021-02-20 07:51:27+00:00",
+		"UserPolicy": "AdministratorAccess",
+		"GroupInfo": "Group Not Set",
+		"AccessKeyInfo": "AccessKey Expiration",
+		"Last Login": "2021-03-08 05:23:32+00:00"
+	},
+	{
+		"UserName": "DICTJH",
+		"Userid": "AIDA45W322ZAX3JFHVOLZ",
+		"Arn": "arn:aws:iam::888445523521:user/DICTJH",
+		"CreateDate": "2021-05-07 09:09:08+00:00",
+		"UserPolicy": "AdministratorAccess",
+		"GroupInfo": {
+			"GroupName": "DICT_GROUP",
+			"GroupId": "AGPA45W322ZAZRKF4OKLX",
+			"GroupPolicy": "AdministratorAccess"
+		},
+		"AccessKeyInfo": 3.2603587962962965,
+		"Last Login": "2021-05-22 14:26:46+00:00"
+	},
+	{
+		"UserName": "DICT_S3",
+		"Userid": "AIDA45W322ZARQ45N74TU",
+		"Arn": "arn:aws:iam::888445523521:user/DICT_S3",
+		"CreateDate": "2021-03-26 01:08:06+00:00",
+		"UserPolicy": "AdministratorAccess",
+		"GroupInfo": {
+			"GroupName": "DICT_GROUP",
+			"GroupId": "AGPA45W322ZAZRKF4OKLX",
+			"GroupPolicy": "AdministratorAccess"
+		},
+		"AccessKeyInfo": 57.619664351851846,
+		"Last Login": "2021-05-22 11:58:12+00:00"
+	}
+>>>>>>> 5ac8fe560707cb51d432de21d216bbdb156e9ee5
 ]

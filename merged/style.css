@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -60,7 +61,7 @@ header ul li a:hover {
 
 .page1 {
     width: 100vw;
-    height: 100vh;
+    height: 1000px;
     background-image: url("./image/header.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -108,13 +109,15 @@ p {
 /*}*/
 .page2 {
     width: 100%;
-    height: 100vh;
-    background: tomato;
+    height: 1000px;
+    background: #F8F7F2;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .page2 .main-content {
-    position: relative;
-    top: 150px;
     text-align: center;
 }
 
@@ -123,9 +126,7 @@ p {
     font-weight: 500;
 }
 .page2 .ex-image1 {
-    position: relative;
-    left: 250px;
-    top: 150px;
+    margin-top: 50px;
     width: 750px;
     height: 500px;
     border: 1px solid black;
@@ -141,18 +142,26 @@ p {
 }
 .page3 {
     width: 100%;
-    height: 100vh;
-    background: yellow;
-    position: relative;
+    height: 1000px;
+    background: #fff;
+    font-family: 'Raleway', sans-serif;
 }
-.page3 a {
-    position: absolute;
-    font-size: 45px;
-    bottom: 10px;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    text-decoration: none;
-    color: #000;
+.page3 .main-content {
+    text-align: center;
+}
+.page3 .main-content h1 {
+    padding: 100px 0;
+}
+.page3 ul {
+    display: flex;
+
+}
+.page3 li {
+    width: 150px;
+    height: 150px;
+    border: 1px solid black;
+    border-radius: 50%;
+    list-style: none;
 }
 .side-left {
     width: 250px;
