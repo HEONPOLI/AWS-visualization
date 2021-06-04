@@ -1,5 +1,5 @@
 const MARGIN = 20;
-const SPAN = 750;
+const SPAN = 1000;
 const OPACITY = 0.14;
 
 const svg = d3.select(".content svg");
@@ -320,8 +320,11 @@ const init = function (graph) {
                 }
               }
             }
-            zoom(d);
-            e.stopPropagation();
+
+            if (zoomAble) {
+              zoom(d);
+              e.stopPropagation();
+            }
           });
 
           newDIV.addEventListener("mouseover", function (event) {
@@ -451,7 +454,8 @@ const init = function (graph) {
       .attr("stroke", "red")
       .style("opacity", 0.2)
       .attr("marker-start", "url(#marker-dot)")
-      .attr("marker-end", "url(#marker-dot)");
+      .attr("marker-end", "url(#marker-dot)")
+      .style("display", showLink ? "inline" : "none");
 
     appendLabel(v, k);
 
@@ -543,7 +547,7 @@ const init = function (graph) {
           labelGroup
             .selectAll("text")
             .style("display", (d) =>
-              d.data.name.startsWith(val1) ? "inline" : "none"
+              d.data.id.startsWith(val1) ? "inline" : "none"
             );
         }
       });

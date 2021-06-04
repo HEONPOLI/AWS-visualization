@@ -2,7 +2,6 @@ import boto3
 import json
 import datetime
 from collections import defaultdict
-import time
 
 
 def myconverter(o):
@@ -104,10 +103,14 @@ def get_infra():
             elb_node['name'] = 'elb-' + elb['LoadBalancerName']
             elb_node['href'] = 'icons/aws_elb.png'
             elb_node['dns_name'] = elb['DNSName']
-            # elb_node['policies'] = elb['Policies']
-            # elb_node['azs'] = elb['AvailabilityZones']
-            # elb_node['subnet_ids'] = elb['Subnets']
-            # elb_node['vpc_id'] = elb['VPCId']
+            elb_node['policies'] = elb['Policies']
+            elb_node['azs'] = elb['AvailabilityZones']
+            elb_node['subnet_ids'] = elb['Subnets']
+            elb_node['vpc_id'] = elb['VPCId']
+            elb_node['owner_alias'] = elb['SourceSecurityGroup']['OwnerAlias']
+            elb_node['group_name'] = elb['SourceSecurityGroup']['GroupName']
+            elb_node['created_time'] = myconverter(elb['CreatedTime'])
+            elb_node['scheme'] = elb['Scheme']
             elb_node['children'] = [null_node]
             vpc_node['children'].append(elb_node)
 
@@ -128,6 +131,7 @@ def get_infra():
             igw_node = defaultdict()
             igw_node['id'] = igw.internet_gateway_id
             igw_node['name'] = 'igw-' + str(vpc_idx) + str(igw_idx)
+            igw_node['owner_id'] = igw.owner_id
             igw_node['size'] = radius['h2']
             igw_node['href'] = 'icons/aws_igw.png'
             igw_node['children'] = [null_node]
@@ -162,9 +166,11 @@ def get_infra():
                 nat_node['name'] = 'nat-' + str(vpc_idx) + str(subnet_idx) + str(nat_idx)
                 nat_node['href'] = 'icons/aws_nat.png'
                 nat_node['state'] = nat['State']
-                nat_node['publicIp'] = nat['NatGatewayAddresses'][0]['PublicIp']
-                nat_node['privateIp'] = nat['NatGatewayAddresses'][0]['PrivateIp']
-                nat_node['CreateTime'] = nat['CreateTime']
+                nat_node['public_ip'] = nat['NatGatewayAddresses'][0]['PublicIp']
+                nat_node['private_ip'] = nat['NatGatewayAddresses'][0]['PrivateIp']
+                nat_node['create_time'] = nat['CreateTime']
+                nat_node['subnet_id'] = nat['SubnetId']
+                nat_node['vpc_id'] = nat['VpcId']
                 nat_node['children'] = [null_node]
                 subnet_node['children'].append(nat_node)
                 nat_idx += 1
@@ -259,7 +265,6 @@ def get_infra():
                 inst_node['volume_id'] = resp_vol[0].volume_id
                 inst_node['volume_size'] = resp_vol[0].size
                 inst_node['volume_type'] = resp_vol[0].volume_type
-                inst_node['volume_throughput'] = resp_vol[0].throughput
 
                 inst_node['children'] = [null_node]
                 subnet_node['children'].append(inst_node)
@@ -315,7 +320,7 @@ def get_iam():
 
     graph['tree'] = root_node
 
-    # with open("json/scratchNote.json", "w") as json_file:
+    # with open("json/packed_circle.json", "w") as json_file:
     #     json.dump(graph, json_file, default=myconverter, indent=4)
     #     json_file.close()
 

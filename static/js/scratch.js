@@ -26,6 +26,7 @@
 
 function treeBoxes(urlService, jsonData)
 {
+
     var urlService_ = '';
 
     var blue = '#337ab7',
@@ -45,6 +46,8 @@ function treeBoxes(urlService, jsonData)
         width = 800 - margin.right - margin.left,
         height = 400 - margin.top - margin.bottom;
 
+    document.querySelector(".fa-spinner").classList.remove("fa-spin");
+    document.querySelector("svg").innerHTML="";
 
     //**************************************//
     //*******************사각형노드 크기변경*******************//
@@ -112,18 +115,18 @@ function treeBoxes(urlService, jsonData)
                     node.color = yellow;
             });
         });
-        height = maxTreeWidth * (rectNode.height + 80) + tooltip.height + 20 - margin.right - margin.left;
-        width = maxDepth * (rectNode.width * 1.5) + tooltip.width / 2 - margin.top - margin.bottom;
+        height = maxTreeWidth * (rectNode.height + 80) + tooltip.height + 200 - margin.right - margin.left;
+        width = maxDepth * (rectNode.width * 1.5) + tooltip.width / 2 - margin.top - margin.bottom + 400;
 
         tree = d3.layout.tree().size([ height, width ]);
         root.x0 = height / 2;
         root.y0 = 0;
 
-        baseSvg = d3.select('#tree-container').append('svg')
+        baseSvg = d3.select('#tree-container svg')
+            //.append('svg')
             .attr('width', width + margin.right + margin.left)
             .attr('height', height + margin.top + margin.bottom)
             .attr('class', 'svgContainer')
-            .style("border", "1px solid red")
             .call(d3.behavior.zoom()
                 //.scaleExtent([0.5, 1.5]) // Limit the zoom scale
                 .on('zoom', zoomAndDrag));
@@ -168,7 +171,8 @@ function treeBoxes(urlService, jsonData)
         breadthFirstTraversal(tree.nodes(root), collision);
         // Normalize for fixed-depth
         nodes.forEach(function(d) {
-            d.y = d.depth * (rectNode.width * 1.5);
+            /**************************************/
+            d.y = d.depth * (rectNode.width * 2.5);
         });
 
         // 1) ******************* Update the nodes *******************
@@ -647,4 +651,11 @@ function treeBoxes(urlService, jsonData)
             .append('path')
             .attr('d', 'M10,-5L0,0L10,5');
     }
+}
+
+function render() {
+    document.querySelector(".fa-spinner").classList.add("fa-spin");
+    d3.json("/fetch_iam", function (error, json) {
+        treeBoxes("", json.tree);
+    }); 
 }
