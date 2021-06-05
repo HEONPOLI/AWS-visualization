@@ -183,20 +183,20 @@ p {
     right: 75px;
 }
 .page3 li:nth-child(1) {
-    background: url("./image/p3.png");
+    background-image: url("/static/image/p3.png");
     background-size: cover;
     background-position: -10px;
     background-repeat: no-repeat;
 }
 .page3 li:nth-child(2) {
-    background: url("./image/p2.png");
+    background-image: url("/static/image/p2.png");
     background-size: cover;
     background-position: -15px;
     background-repeat: no-repeat;
     margin: 0 200px;
 }
 .page3 li:nth-child(3) {
-    background: url("./image/p1.png");
+    background-image: url("/static/image/p1.png");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -306,9 +306,6 @@ p {
     align-items: center;
     cursor: pointer;
 }
-/*.dropdown-list__item:not(:first-child) {*/
-/*    margin-top: 15px;*/
-/*}*/
 .dropdown-list__item:hover {
     background: lightgreen;
 }

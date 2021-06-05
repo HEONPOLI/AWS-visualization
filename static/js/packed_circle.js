@@ -22,7 +22,7 @@ const color = {
   vpc: "hsl(259, 55%, 48%)",
   private_subnet: "hsl(202, 81%, 40%)",
   public_subnet: "hsl(112, 74%, 31%)",
-  empty_subnet: "",
+  empty_subnet: "hsl(299, 86%, 48%)",
   blackhole_subnet: "hsl(58, 73%, 52%)",
   db: "hsl(235, 57%, 51%)",
   i: "hsl(29, 88%, 47%)",
@@ -107,6 +107,7 @@ const init = function (graph) {
       return "hsl(0, 0%, 0%)";
     } else if (id.startsWith("subnet")) {
       return color[`${d.data.type}_subnet`];
+
     } else {
       return color[id.split("-")[0]];
     }
@@ -134,8 +135,12 @@ const init = function (graph) {
     .style("display", (d) => (d.height === 0 ? "none" : "inline"))
     .style("stroke", (d) => get_color(d))
     .style("fill", (d) => {
-      const c = get_color(d).split(",");
-      return `${c[0]},${c[1]}, 86%)`;
+      if (d.data.type !== undefined && d.data.type.startsWith("empty")) {
+        return ""
+      } else {
+        const c = get_color(d).split(",");
+        return `${c[0]},${c[1]}, 86%)`;
+      }
     });
 
   const image = nodeGroup

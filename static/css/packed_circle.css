@@ -21,13 +21,11 @@ select {
 }
 
 .node:hover {
-  stroke: #c4db15;
   stroke-width: 3px;
 }
 
 .label,
-.node--root
-/* .node--leaf */ {
+.node--root {
   pointer-events: none;
 }
 .content {
@@ -49,4 +47,10 @@ select {
 .a li {
   text-decoration: none;
   list-style: none;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
 }
