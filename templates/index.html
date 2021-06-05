@@ -1,51 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8">
     <title>Title</title>
     <!-- CSS only -->
     <link
       rel="stylesheet"
       href="{{url_for('static', filename='css/style.css')}}"
     />
-  </head>
-  <body>
-    <header>
-      <span class="logo">DICT</span>
-      <ul>
-        <li class="navbar-item">
-          <a class="navbar-link active" href="/">HOME</a>
-        </li>
-        <li class="navbar-item">
-          <a class="navbar-link" href="/visualize">DISPLAY</a>
-        </li>
-        <li class="navbar-item">
-          <a class="navbar-link" href="/iam">IAM</a>
-        </li>
-      </ul>
-    </header>
-    <div class="page1">
-      <div class="main-content">
+    <script src="https://kit.fontawesome.com/b98b5bbdbb.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+    <span class="logo">DICT</span>
+    <ul>
+        <li class="navbar-item"><a class="navbar-link active" href="/">HOME</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="/visualize">DISPLAY</a></li>
+        <li class="navbar-item"><a class="navbar-link" href="/iam">IAM</a></li>
+    </ul>
+</header>
+<div class="page1">
+    <div class="main-content">
         <h1>CAPSTON DESIGN</h1>
         <h3>CLOUD INFRA VISUALIZATION</h3>
-        <p>
-          클라우드 언제까지 어려워할래?<br />
-          DICT에선 쉽고 빠르고 한눈에<br />
-          보여드립니다.
-        </p>
-      </div>
+        <p>클라우드 언제까지 어려워할래?<br>
+        DICT에선 쉽고 빠르고 한눈에<br>
+        보여드립니다.</p>
     </div>
-    <div class="page2">
-      <div class="main-content">
-        <h1>클라우드 아키텍처 예제를 통해 알아보세요.</h1>
-      </div>
-      <div class="ex-image1"></div>
+</div>
+<div class="page2">
+
+    <div class="main-content">
+        <h1>DICT provide these features</h1>
+        <h2>We thought from the user's point of view <br>and made it easy to use.</h2>
+        <span>Advantage</span>
     </div>
-    <div class="page3"></div>
-    <!--Javascript only-->
-    <script
-      src="https://kit.fontawesome.com/b98b5bbdbb.js"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+    <ul class="func">
+        <li class="fitem">
+            <span>Visualization</span>
+            <b><br><br>visualize your cloud<br>
+                infrastructure in circle form
+            </b>
+        </li>
+        <li class="fitem">
+            <span>Relation</span>
+            <b><br><br>show the relationship<br>
+                between cloud resources
+            </b>
+        </li>
+        <li class="fitem">
+            <span>Information</span>
+            <b><br><br>provide the information of<br>
+                cloud resources you want
+            </b>
+        </li>
+        <li class="fitem">
+            <span>Organization</span>
+            <b><br><br>you can see the iam organization<br>
+                chart you set visually
+            </b>
+        </li>
+    </ul>
+</div>
+<div class="page3">
+    <div class="main-content">
+        <h1>Why Choose DICT</h1>
+    </div>
+    <ul>
+        <li>
+            <div class="say">
+                You can see your cloud infrastructure<br>
+                at a glance without having to check it yourself.
+            </div>
+        </li>
+        <li>
+            <div class="say">You can see all the information at once, saving time.</div>
+        </li>
+        <li>
+            <div class="say">It is very convenient to see not only the cloud infrastructure but also the IAM organization.</div>
+        </li>
+    </ul>
+</div>
+
+</body>
 </html>

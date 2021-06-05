@@ -1,27 +1,4 @@
-/***************************************************************
- *
- *  Copyright (C) 2016 Swayvil <swayvil@gmail.com>
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU General Public License for more details.
- *
- ***************************************************************/
 
-/*
- * Dependencies:
- * - d3.js
- * - jquery.js
- */
 "use strict";
 
 function treeBoxes(urlService, jsonData)
@@ -40,18 +17,15 @@ function treeBoxes(urlService, jsonData)
             bottom : 100,
             left : 0
         },
-        // Height and width are redefined later in function of the size of the tree
-        // (after that the data are loaded)
         width = 800 - margin.right - margin.left,
         height = 400 - margin.top - margin.bottom;
 
+    document.querySelector(".fa-spinner").classList.remove("fa-spin");
+    document.querySelector("svg").innerHTML="";
 
-    //**************************************//
-    //*******************사각형노드 크기변경*******************//
-    //**************************************//
     var rectNode_root = { width : 200, height : 50, textMargin : 5},
         rectNode_group = { width : 200, height : 75, textMargin : 5},
-        rectNode = { width : 200, height : 100, textMargin : 5 },
+        rectNode = { width : 300, height : 210, textMargin : 5 },
         tooltip = { width : 150, height : 40, textMargin : 5 };
     var i = 0,
         duration = 750,
@@ -96,10 +70,7 @@ function treeBoxes(urlService, jsonData)
         tree = d3.layout.tree().size([ height, width ]);
         root = jsonData;
         root.fixed = true;
-
-        // Dynamically set the height of the main svg container
-        // breadthFirstTraversal returns the max number of node on a same level
-        // and colors the nodes
+        
         var maxDepth = 0;
         var maxTreeWidth = breadthFirstTraversal(tree.nodes(root), function(currentLevel) {
             maxDepth++;
@@ -112,18 +83,16 @@ function treeBoxes(urlService, jsonData)
                     node.color = yellow;
             });
         });
-        height = maxTreeWidth * (rectNode.height + 80) + tooltip.height + 20 - margin.right - margin.left;
+        height = maxTreeWidth * (rectNode.height + 80) + tooltip.height + 200 - margin.right - margin.left;
         width = maxDepth * (rectNode.width * 1.5) + tooltip.width / 2 - margin.top - margin.bottom;
-
         tree = d3.layout.tree().size([ height, width ]);
         root.x0 = height / 2;
         root.y0 = 0;
 
-        baseSvg = d3.select('#tree-container').append('svg')
+        baseSvg = d3.select('#tree-container svg')
             .attr('width', width + margin.right + margin.left)
             .attr('height', height + margin.top + margin.bottom)
             .attr('class', 'svgContainer')
-            .style("border", "1px solid red")
             .call(d3.behavior.zoom()
                 //.scaleExtent([0.5, 1.5]) // Limit the zoom scale
                 .on('zoom', zoomAndDrag));
@@ -138,18 +107,10 @@ function treeBoxes(urlService, jsonData)
             .append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-        // SVG elements under nodeGroupTooltip could be associated with nodeGroup,
-        // same for linkGroupToolTip and linkGroup,
-        // but this separation allows to manage the order on which elements are drew
-        // and so tooltips are always on top.
         nodeGroup = svgGroup.append('g')
             .attr('id', 'nodes');
         linkGroup = svgGroup.append('g')
             .attr('id', 'links');
-        // linkGroupToolTip = svgGroup.append('g')
-        //     .attr('id', 'linksTooltips');
-        // nodeGroupTooltip = svgGroup.append('g')
-        //     .attr('id', 'nodesTooltips');
 
         defs = baseSvg.append('defs');
         initArrowDef();
@@ -168,6 +129,7 @@ function treeBoxes(urlService, jsonData)
         breadthFirstTraversal(tree.nodes(root), collision);
         // Normalize for fixed-depth
         nodes.forEach(function(d) {
+            /**************************************/
             d.y = d.depth * (rectNode.width * 1.5);
         });
 
@@ -175,15 +137,6 @@ function treeBoxes(urlService, jsonData)
         var node = nodeGroup.selectAll('g.node').data(nodes, function(d) {
             return d.id || (d.id = ++i);
         });
-        // var nodesTooltip = nodeGroupTooltip.selectAll('g').data(nodes, function(d) {
-        //     return d.id || (d.id = ++i);
-        // });
-
-        // Enter any new nodes at the parent's previous position
-        // We use "insert" rather than "append", so when a new child node is added (after a click)
-        // it is added at the top of the group, so it is drawed first
-        // else the nodes tooltips are drawed before their children nodes and they
-        // hide them
         var nodeEnter = node.enter().insert('g', 'g.node')
             .attr('class', 'node')
             .attr('transform', function(d) {
@@ -200,10 +153,12 @@ function treeBoxes(urlService, jsonData)
             .attr('ry', 6)
             .attr('width', rectNode.width)
             .attr('height', function (d){
-                if(d.user_id){
-                    return "120";
-                }else{
+                if(d.user_id) {
                     return rectNode.height;
+                }else if(d.group_id){
+                    return "130";
+                }else{
+                    return "60";
                 }
             })
             .attr('class', 'node-rect')
@@ -219,8 +174,8 @@ function treeBoxes(urlService, jsonData)
             })
             .attr('height', function(d) {
                 if(d.user_id){
-                    return (120 - rectNode.textMargin * 2) < 0 ? 0
-                        : (120 - rectNode.textMargin * 2)
+                    return (rectNode.height - rectNode.textMargin * 2) < 0 ? 0
+                        : (rectNode.height - rectNode.textMargin * 2)
                 }
                 return (rectNode.height - rectNode.textMargin * 2) < 0 ? 0
                     : (rectNode.height - rectNode.textMargin * 2)
@@ -233,23 +188,32 @@ function treeBoxes(urlService, jsonData)
                     + '<b>User name: </b>' + '<span>'+d.user_name+'</span>' + '</b><br><br>'
                     + '</div>';
             }else if(d.user_id) {
-                return '<div style="width: '
+                var a = '<div style="width: '
                     + (rectNode.width - rectNode.textMargin * 2) + 'px; height: '
-                    + (120 - rectNode.textMargin * 2) + 'px;" class="node-text wordwrap">'
-                    + '<b>User name: </b>' + '<span>'+d.user_name+'</span>' + '</b><br><br>'
-                    + '<b>User id: </b>' + d.user_id + '<br>'
-                    + '<b>Arn: </b>' + d.user_arn + '<br>'
-                    + '<b>Policy: </b>' + d.user_attached_policies + '<br>'
-                    // + '<b>Access Key: </b>' + d.AccessKeyInfo + '<br>'
-                    + '</div>';
+                    + (rectNode.height - rectNode.textMargin * 2) + 'px;" class="node-text wordwrap">'
+                    + '<b>User name: </b>'+'<span>'+d.user_name+'</span>' + '</b><br><br>'
+                    + '<b>User id: </b>' + '<br>'+ d.user_id + '<br>'
+                    + '<b>Arn: </b>' + '<br>'+ d.user_arn + '<br>'
+                    + '<b>Create Date: </b>' + '<br>'+ d.user_create_date + '<br>'
+                    + '<b>Policy: </b>' + '<br>'
+
+                for(var i in d.user_attached_policies){
+                    a += d.user_attached_policies[i] + '<br>'
+                }
+                a += '</div>';
+                return a;
             }else if(d.group_id){
-                return '<div style="width: '
+                var a = '<div style="width: '
                     + (rectNode.width - rectNode.textMargin * 2) + 'px; height: '
                     + (rectNode.height - rectNode.textMargin * 2) + 'px;" class="node-text wordwrap">'
                     + '<b>Group name: </b>' + '<span>'+d.group_name+'</span>' + '</b><br><br>'
-                    + '<b>Group id: </b>' + d.group_id + '<br>'
-                    + '<b>GroupPolicy </b>' + d.group_attached_policies + '<br>'
-                    + '</div>';
+                    + '<b>Group id: </b>' + '<br>'+ d.group_id + '<br>'
+                    + '<b>GroupPolicy </b>' + '<br>'
+                for(var i in d.group_attached_policies){
+                    a += d.group_attached_policies[i] + '<br>'
+                }
+                a += '</div>';
+                return a;
             }
         })
             .on('mouseover', function(d) {
@@ -260,71 +224,30 @@ function treeBoxes(urlService, jsonData)
                 $('#nodeInfoID' + d.id).css('visibility', 'hidden');
                 $('#nodeInfoTextID' + d.id).css('visibility', 'hidden');
             });
-
-        // nodeEnterTooltip.append("rect")
-        //     .attr('id', function(d) { return 'nodeInfoID' + d.id; })
-        //     .attr('x', rectNode.width / 2)
-        //     .attr('y', rectNode.height / 2)
-        //     .attr('width', tooltip.width)
-        //     .attr('height', tooltip.height)
-        //     .attr('class', 'tooltip-box')
-        //     .style('fill-opacity', 0.8)
-        //     .on('mouseover', function(d) {
-        //         $('#nodeInfoID' + d.id).css('visibility', 'visible');
-        //         $('#nodeInfoTextID' + d.id).css('visibility', 'visible');
-        //         removeMouseEvents();
-        //     })
-        //     .on('mouseout', function(d) {
-        //         $('#nodeInfoID' + d.id).css('visibility', 'hidden');
-        //         $('#nodeInfoTextID' + d.id).css('visibility', 'hidden');
-        //         reactivateMouseEvents();
-        //     });
-        //
-        // nodeEnterTooltip.append("text")
-        //     .attr('id', function(d) { return 'nodeInfoTextID' + d.id; })
-        //     .attr('x', rectNode.width / 2 + tooltip.textMargin)
-        //     .attr('y', rectNode.height / 2 + tooltip.textMargin * 2)
-        //     .attr('width', tooltip.width)
-        //     .attr('height', tooltip.height)
-        //     .attr('class', 'tooltip-text')
-        //     .style('fill', 'white')
-        //     .append("tspan")
-        //     .text(function(d) {return 'Name: ' + d.name;})
-        //     .append("tspan")
-        //     .attr('x', rectNode.width / 2 + tooltip.textMargin)
-        //     .attr('dy', '1.5em')
-        //     .text(function(d) {return 'Info: ' + d.label;});
-
-        // Transition nodes to their new position.
         var nodeUpdate = node.transition().duration(duration)
-            .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; });
-        // nodesTooltip.transition().duration(duration)
-        //     .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; });
-
+            .attr('transform', function(d) {
+                if(d.user_name === 'root'){
+                    var dx = d.x + 70;
+                    return 'translate(' + d.y + ',' + dx +')';
+                }else if(d.user_id){
+                    return 'translate(' + d.y + ',' + d.x + ')';
+                }
+                else{
+                    var dx = d.x + 35;
+                    return 'translate(' + d.y + ',' + dx + ')';
+                } });
         nodeUpdate.select('rect')
             .attr('class', function(d) { return d._children ? 'node-rect-closed' : 'node-rect'; });
-
         nodeUpdate.select('text').style('fill-opacity', 1);
-
-        // Transition exiting nodes to the parent's new position
         var nodeExit = node.exit().transition().duration(duration)
             .attr('transform', function(d) { return 'translate(' + source.y + ',' + source.x + ')'; })
             .remove();
-        // nodesTooltip.exit().transition().duration(duration)
-        //     .attr('transform', function(d) { return 'translate(' + source.y + ',' + source.x + ')'; })
-        //     .remove();
-
         nodeExit.select('text').style('fill-opacity', 1e-6);
 
 
-        // 2) ******************* Update the links *******************
         var link = linkGroup.selectAll('path').data(links, function(d) {
             return d.target.id;
         });
-        // var linkTooltip = linkGroupToolTip.selectAll('g').data(links, function(d) {
-        //     return d.target.id;
-        // });
-
         function linkMarkerStart(direction, isSelected) {
             if (direction == 'SYNC')
             {
@@ -332,26 +255,11 @@ function treeBoxes(urlService, jsonData)
             }
             return '';
         }
-
-        // function linkType(link) {
-        //     if (link.direction == 'SYNC')
-        //         return "Synchronous [\u2194]";
-        //     else
-        //     {
-        //         if (link.direction == 'ASYN')
-        //             return "Asynchronous [\u2192]";
-        //     }
-        //     return '???';
-        // }
-
         d3.selection.prototype.moveToFront = function() {
             return this.each(function(){
                 this.parentNode.appendChild(this);
             });
         };
-
-        // Enter any new links at the parent's previous position.
-        // Enter any new links at the parent's previous position.
         var linkenter = link.enter().insert('path', 'g')
             .attr('class', 'link')
             .attr('id', function(d) { return 'linkID' + d.target.id; })
@@ -364,93 +272,29 @@ function treeBoxes(urlService, jsonData)
                 d3.select(this).attr('marker-end', 'url(#end-arrow-selected)');
                 d3.select(this).attr('marker-start', linkMarkerStart("ASYN", true));
                 d3.select(this).attr('class', 'linkselected');
-
-                // $('#tooltipLinkID' + d.target.id).attr('x', (d.target.y + rectNode.width - d.source.y) / 2 + d.source.y);
-                // $('#tooltipLinkID' + d.target.id).attr('y', (d.target.x - d.source.x) / 2 + d.source.x);
-                // $('#tooltipLinkID' + d.target.id).css('visibility', 'visible');
-                // $('#tooltipLinkTextID' + d.target.id).css('visibility', 'visible');
             })
             .on('mouseout', function(d) {
                 d3.select(this).attr('marker-end', 'url(#end-arrow)');
                 d3.select(this).attr('marker-start', linkMarkerStart("ASYN", false));
                 d3.select(this).attr('class', 'link');
-                // $('#tooltipLinkID' + d.target.id).css('visibility', 'hidden');
-                // $('#tooltipLinkTextID' + d.target.id).css('visibility', 'hidden');
             });
 
-        // linkTooltip.enter().append('rect')
-        //     .attr('id', function(d) { return 'tooltipLinkID' + d.target.id; })
-        //     .attr('class', 'tooltip-box')
-        //     .style('fill-opacity', 0.8)
-        //     .attr('x', function(d) { return (d.target.y + rectNode.width - d.source.y) / 2 + d.source.y; })
-        //     .attr('y', function(d) { return (d.target.x - d.source.x) / 2 + d.source.x; })
-        //     .attr('width', tooltip.width)
-        //     .attr('height', tooltip.height)
-        //     .on('mouseover', function(d) {
-        //         $('#tooltipLinkID' + d.target.id).css('visibility', 'visible');
-        //         $('#tooltipLinkTextID' + d.target.id).css('visibility', 'visible');
-        //         // After selected a link, the cursor can be hover the tooltip, that's why we still need to highlight the link and the arrow
-        //         $('#linkID' + d.target.id).attr('class', 'linkselected');
-        //         $('#linkID' + d.target.id).attr('marker-end', 'url(#end-arrow-selected)');
-        //         $('#linkID' + d.target.id).attr('marker-start', linkMarkerStart(d.target.link.direction, true));
-        //
-        //         removeMouseEvents();
-        //     })
-        //     .on('mouseout', function(d) {
-        //         $('#tooltipLinkID' + d.target.id).css('visibility', 'hidden');
-        //         $('#tooltipLinkTextID' + d.target.id).css('visibility', 'hidden');
-        //         $('#linkID' + d.target.id).attr('class', 'link');
-        //         $('#linkID' + d.target.id).attr('marker-end', 'url(#end-arrow)');
-        //         $('#linkID' + d.target.id).attr('marker-start', linkMarkerStart(d.target.link.direction, false));
-        //
-        //         reactivateMouseEvents();
-        //     });
-        //
-        // linkTooltip.enter().append('text')
-        //     .attr('id', function(d) { return 'tooltipLinkTextID' + d.target.id; })
-        //     .attr('class', 'tooltip-text')
-        //     .attr('x', function(d) { return (d.target.y + rectNode.width - d.source.y) / 2 + d.source.y + tooltip.textMargin; })
-        //     .attr('y', function(d) { return (d.target.x - d.source.x) / 2 + d.source.x + tooltip.textMargin * 2; })
-        //     .attr('width', tooltip.width)
-        //     .attr('height', tooltip.height)
-        //     .style('fill', 'white')
-        //     .append("tspan")
-        //     .text(function(d) { return "Asynchronous [\u2192]"; })
-        //     .append("tspan")
-        //     .attr('x', function(d) { return (d.target.y + rectNode.width - d.source.y) / 2 + d.source.y + tooltip.textMargin; })
-        //     .attr('dy', '1.5em')
-        //     .text(function(d) {return d.target.link.name;});
-
-        // Transition links to their new position.
         var linkUpdate = link.transition().duration(duration)
             .attr('d', function(d) { return diagonal(d); });
-        // linkTooltip.transition().duration(duration)
-        //     .attr('d', function(d) { return diagonal(d); });
-
-        // Transition exiting nodes to the parent's new position.
         link.exit().transition()
             .remove();
-
-        // linkTooltip.exit().transition()
-        //     .remove();
-
-        // Stash the old positions for transition.
         nodes.forEach(function(d) {
             d.x0 = d.x;
             d.y0 = d.y;
         });
     }
-
-    // Zoom functionnality is desactivated (user can use browser Ctrl + mouse wheel shortcut)
     function zoomAndDrag() {
-        //var scale = d3.event.scale,
         var scale = 1,
             translation = d3.event.translate,
             tbound = -height * scale,
             bbound = height * scale,
             lbound = (-width + margin.right) * scale,
             rbound = (width - margin.left) * scale;
-        // limit translation to thresholds
         translation = [
             Math.max(Math.min(translation[0], rbound), lbound),
             Math.max(Math.min(translation[1], bbound), tbound)
@@ -459,8 +303,6 @@ function treeBoxes(urlService, jsonData)
             .attr('transform', 'translate(' + translation + ')' +
                 ' scale(' + scale + ')');
     }
-
-    // Toggle children on click.
     function click(d) {
         if (d.children) {
             d._children = d.children;
@@ -471,10 +313,6 @@ function treeBoxes(urlService, jsonData)
         }
         update(d);
     }
-
-    // Breadth-first traversal of the tree
-    // func function is processed on every node of a same level
-    // return the max level
     function breadthFirstTraversal(tree, func)
     {
         var max = 0;
@@ -506,7 +344,6 @@ function treeBoxes(urlService, jsonData)
         return 0;
     }
 
-    // x = ordoninates and y = abscissas
     function collision(siblings) {
         var minPadding = 5;
         if (siblings) {
@@ -528,8 +365,6 @@ function treeBoxes(urlService, jsonData)
         // Reactivate the drag and zoom behaviors
         d3.select('#tree-container').select('svg').on('mousedown.zoom', mousedown);
     }
-
-    // Name of the event depends of the browser
     function getMouseWheelEvent() {
         if (d3.select('#tree-container').select('svg').on('wheel.zoom'))
         {
@@ -547,10 +382,9 @@ function treeBoxes(urlService, jsonData)
             return d3.select('#tree-container').select('svg').on('DOMMouseScroll.zoom');
         }
     }
-
     function diagonal(d) {
         var p0 = {
-            x : d.source.x + rectNode.height / 2,
+            x : d.source.x + rectNode.height / 2 ,
             y : (d.source.y + rectNode.width)
         }, p3 = {
             x : d.target.x + rectNode.height / 2,
@@ -567,7 +401,6 @@ function treeBoxes(urlService, jsonData)
         });
         return 'M' + p[0] + 'C' + p[1] + ' ' + p[2] + ' ' + p[3];
     }
-
     function initDropShadow() {
         var filter = defs.append("filter")
             .attr("id", "drop-shadow")
@@ -647,4 +480,11 @@ function treeBoxes(urlService, jsonData)
             .append('path')
             .attr('d', 'M10,-5L0,0L10,5');
     }
+}
+
+function render() {
+    document.querySelector(".fa-spinner").classList.add("fa-spin");
+    d3.json("/fetch_iam", function (error, json) {
+        treeBoxes("", json.tree);
+    }); 
 }
