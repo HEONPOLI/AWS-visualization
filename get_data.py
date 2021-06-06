@@ -96,6 +96,26 @@ def get_infra():
         vpc_node['href'] = 'icons/aws_vpc.png'
         vpc_node['children'] = [null_node]
 
+        resp_igw = internet_gateways.filter(
+            Filters=[
+                {
+                    'Name': 'attachment.vpc-id',
+                    'Values': [
+                        vpc_node['id']
+                    ]
+                }
+            ]
+        )
+        igw = list(resp_igw)[0]
+        igw_node = defaultdict()
+        igw_node['id'] = igw.internet_gateway_id
+        igw_node['name'] = 'igw-' + str(vpc_idx) + str(igw_idx)
+        igw_node['owner_id'] = igw.owner_id
+        igw_node['size'] = radius['h2']
+        igw_node['href'] = 'icons/aws_igw.png'
+        igw_node['children'] = [null_node]
+        vpc_node['children'].append(igw_node)
+
         resp_elb = list(filter(lambda e: e['VPCId'] == vpc_node['id'], elb_list))
         for elb in resp_elb:
             elb_node = defaultdict()
@@ -112,30 +132,11 @@ def get_infra():
             elb_node['created_time'] = myconverter(elb['CreatedTime'])
             elb_node['scheme'] = elb['Scheme']
             elb_node['children'] = [null_node]
+            graph['links'].append({'source': elb_node['id'], 'target': igw_node['id']})
             vpc_node['children'].append(elb_node)
 
             for inst in elb['Instances']:
                 graph['links'].append({'source': elb_node['id'], 'target': inst['InstanceId']})
-
-        resp_igw = internet_gateways.filter(
-            Filters=[
-                {
-                    'Name': 'attachment.vpc-id',
-                    'Values': [
-                        vpc_node['id']
-                    ]
-                }
-            ]
-        )
-        for igw in resp_igw:
-            igw_node = defaultdict()
-            igw_node['id'] = igw.internet_gateway_id
-            igw_node['name'] = 'igw-' + str(vpc_idx) + str(igw_idx)
-            igw_node['owner_id'] = igw.owner_id
-            igw_node['size'] = radius['h2']
-            igw_node['href'] = 'icons/aws_igw.png'
-            igw_node['children'] = [null_node]
-            vpc_node['children'].append(igw_node)
 
         resp_subnet = subnets.filter(
             Filters=[

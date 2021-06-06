@@ -22,6 +22,10 @@
         },
         {
             "source": "elb-vpc-0e977ed5956ddba32",
+            "target": "igw-0bd608b742e675096"
+        },
+        {
+            "source": "elb-vpc-0e977ed5956ddba32",
             "target": "i-059b7b3080c78cf5b"
         },
         {
@@ -518,6 +522,21 @@
                         "size": 0.01
                     },
                     {
+                        "id": "igw-0bd608b742e675096",
+                        "name": "igw-20",
+                        "owner_id": "888445523521",
+                        "size": 4,
+                        "href": "icons/aws_igw.png",
+                        "children": [
+                            {
+                                "id": "null",
+                                "name": "null",
+                                "children": [],
+                                "size": 0.01
+                            }
+                        ]
+                    },
+                    {
                         "id": "elb-vpc-0e977ed5956ddba32",
                         "name": "elb-dict-LB",
                         "href": "icons/aws_elb.png",
@@ -540,21 +559,6 @@
                         "group_name": "dict-elb-sg",
                         "created_time": "2021-05-08 07:17:26.050000+00:00",
                         "scheme": "internet-facing",
-                        "children": [
-                            {
-                                "id": "null",
-                                "name": "null",
-                                "children": [],
-                                "size": 0.01
-                            }
-                        ]
-                    },
-                    {
-                        "id": "igw-0bd608b742e675096",
-                        "name": "igw-20",
-                        "owner_id": "888445523521",
-                        "size": 4,
-                        "href": "icons/aws_igw.png",
                         "children": [
                             {
                                 "id": "null",
