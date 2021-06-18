@@ -29,3 +29,7 @@
 
 (2) IAM 데이터 수집 및 가공
 ./get_data.py의 get_iam 함수 - 구축된 인프라에 적용된 IAM 데이터를 요청하고 응답 데이터를 가공하여 ./static/js/tree_boxes.js의 입력 JSON 데이터를 반환하는 python 함수
+
+4. 박재헌
+(1) AWS 클라우드 인프라 구축
+(2) IAM 사용자 계정 및 그룹 다수 생성
